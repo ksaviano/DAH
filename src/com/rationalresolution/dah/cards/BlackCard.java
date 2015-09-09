@@ -1,24 +1,29 @@
 package com.rationalresolution.dah.cards;
 
+import java.util.ArrayList;
+
 import javax.persistence.*;
 
+import com.rationalresolution.dah.mech.UtilReadAloud;
 
 @Table(name = "CARDBLACKCARD")
-public class BlackCard extends Card {
+public class BlackCard {
 	//	Fields
 	
 	@Column(name = "bcPKey")
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int bcPKey;
-	
-	@Column(name = "CARDID")
-	@JoinColumn(name = "cbPKey")
-	private int bccbFKey								= getCardID();
-	
+	private int cardID;
+
+	@Column(name = "bcQuestionText")
+	private String bcQuestionText						= "Insert Question text here.";
+
 	@Column(name = "bcBlanks")
 	private int blanks 									= 0;
 	
+	private ArrayList<String> readAloud					= new ArrayList<>();
+	
+	private CardProfile cardProfile						= new CardProfile();
 	
 	private String[] qStructure;
 	
@@ -33,25 +38,24 @@ public class BlackCard extends Card {
 	}
 	
 	public BlackCard(int id, String text) {
-		super(id, text);
 		parseQuestion(text);
 		for (String string : qStructure) {
-			setReadAloud(defTextToVoice(string));
+			UtilReadAloud.setReadAloud(UtilReadAloud.defTextToVoice(string));
 		}
 	}
 	
 	//	Accessor Methods
-	public int getBcPKey()					{ return bcPKey;		}
+	public int getcardID()					{ return cardID;		}
 	public int getBlanks()					{ return blanks;		}
 	public String[] getQStructure()			{ return qStructure;	}
 	
 	public void setBlanks()					{ blanks++;				}
-	@Override
+	
 	public void setCardText(String text) {														//	Need QA and Database work on card text
 		//	ensure no duplicates in DB
 		parseQuestion(text);
 		for (String string : qStructure) {
-			setReadAloud(defTextToVoice(string));
+			UtilReadAloud.setReadAloud(UtilReadAloud.defTextToVoice(text));
 		}
 	}
 	
@@ -93,17 +97,5 @@ public class BlackCard extends Card {
 		case 'd':	return (qStructure[0]);
 		default:	return "Error in qStrucutre of black card";
 		}
-	}
-	
-	public void setReadAloud() {							//	if no parameter, use default method to make sound file
-		for (String text : qStructure) {
-			setReadAloud(defTextToVoice(text));
-		}
-		
-	}
-	
-	public String defTextToVoice(String text) {
-		// api to text-to-voice service
-		return "DEFAULT";
 	}
 }

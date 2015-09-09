@@ -1,29 +1,33 @@
 package com.rationalresolution.dah.cards;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.*;
 
+import com.rationalresolution.dah.mech.UtilReadAloud;
+
 
 @Table(name = "CARDWHITECARD")
-public class WhiteCard extends Card {
+public class WhiteCard {
 	//	Fields
 	
 	@Column(name = "wcPKey")
 	@Id
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int wcPKey;
+	private int cardID;
 	
-	@Column(name = "CARDID")														//	1:1 relationship with parent class Card
-	@JoinColumn(name = "cbPKey")
-	private int wccbFKey 							= getCardID();
+	@Column(name = "wcCardText")
+	private String cardText							= "Insert Answer text here.";
 	
 	@Column(name = "wcWins")
 	private int wins 								= 0;
 	
 	@Column(name = "wcPlayed")
 	private int played 								= 0;
-	
+
+	private ArrayList<String> readAloud				= new ArrayList<>();
+	private CardProfile profile						= new CardProfile();
 
 	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
 	
@@ -31,15 +35,19 @@ public class WhiteCard extends Card {
 	private PlayVWin stats 							= new PlayVWin();
 	
 	//	Constructor
-	public WhiteCard(int id, String text) {
-		super(id, text);
-		setReadAloud(defTextToVoice(text));
+	public WhiteCard() {
+		
+	}
+	
+	public WhiteCard(int i, String text) {
+		UtilReadAloud.setReadAloud(text);
 	}
 	
 	//	Accessor Methods
-	public int getWcPKey()					{ return wcPKey;	}
+	public int getcardID()					{ return cardID;	}
 	public int getWins()					{ return wins;		}
 	public int getPlayed()					{ return played;	}
+	public String getCardText()				{ return cardText;	}
 	public Map<String, Integer> getCombos()	{ return combos;	}
 	
 	public void setWcPKey()					{}						//	NEED AUTO GENERATED ID PROCESS
@@ -54,23 +62,12 @@ public class WhiteCard extends Card {
 		}
 	}
 	
-	@Override
 	public void setCardText(String text) {
 		//	ensure no duplicates in DB
+		cardText = text;
 	}
 	
 	//	Methods
-	@Override
-	public void setReadAloud() {			//	if no parameter, use default method to make sound file
-		String text = getCardText();
-		setReadAloud(defTextToVoice(text));
-	}
-	
-	@Override
-	public String defTextToVoice(String text) {
-		// api to text-to-voice service
-		return "DEFAULT";
-	}
-	
+
 	
 }

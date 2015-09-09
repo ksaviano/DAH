@@ -16,6 +16,11 @@ public class CardProfile {
 	@Column(name = "cpCardSet")
 	private eCardSet cardSet 						= eCardSet.OR;
 	
+	@Column(name = "cpFavorited")
+	private int favorited							= 0;
+	
+	@Column(name = "cpDealt")
+	private int dealt								= 0;
 	
 	private Map<String, Integer> cardDescVotes		= new HashMap<>();
 	
@@ -36,7 +41,9 @@ public class CardProfile {
 	
 	//	Accessor Methods
 	public int getCp_ID()						{ return cpPKey;										}
-	public eCardSet getCardSet()				{ return cardSet;									}
+	public eCardSet getCardSet()				{ return cardSet;					}
+	public int getFavorited()					{ return favorited;					}
+	public int getDealt()						{ return dealt;						}
 	public Integer getCardDescVotes(String s)	{ return cardDescVotes.get(s);						}
 	public int getCardRating() {
 		int average = 0;
@@ -48,6 +55,8 @@ public class CardProfile {
 	
 	public void setCpPKey()						{ }					//	Need automatic assignment of cpPKey
 	public void setCardSet(eCardSet e)			{ cardSet = e;										}
+	public void setFavorited()					{ favorited++;						}
+	public void setDealt()						{ dealt++;							}
 	public void setCardDescVotes(String s) {
 		if(cardDescVotes.containsKey(s)) {
 			cardDescVotes.put(s, (cardDescVotes.get(s) + 1));
@@ -56,6 +65,7 @@ public class CardProfile {
 			cardDescVotes.put(s, 1);
 		}
 	}
+	
 	public void setCardRatings(String s) {
 		if(cardRatings.containsKey(s)) {
 			cardRatings.put(s, (cardRatings.get(s)   + 1)); 
@@ -64,8 +74,4 @@ public class CardProfile {
 			cardRatings.put(s, 1);
 		}
 	}
-	
-	//	Methods
-	
-	
 }

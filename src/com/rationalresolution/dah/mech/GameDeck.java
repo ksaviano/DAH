@@ -36,14 +36,14 @@ public class GameDeck {
 	public WhiteCard randoWCPick() {
 		//	pick random WhiteCard from table
 		//	ensure it is not in current deck
-		HOLDER.setDealt();
+		
 		return HOLDER;
 	}
 	
 	public BlackCard randoBCPick() {
 		//	pick random BlackCard from table
 		//	ensure it is not in current deck
-		SAMPLE.setDealt();
+		
 		return SAMPLE;
 	}
 }
