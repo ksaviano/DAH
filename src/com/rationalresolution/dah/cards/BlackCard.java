@@ -2,7 +2,7 @@ package com.rationalresolution.dah.cards;
 
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "CARDBLACKCARD")
 public class BlackCard extends Card {
 	//	Fields

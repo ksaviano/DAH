@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 import com.rationalresolution.dah.cards.WhiteCard;
 
-@Entity
+
 @Table(name = "PLAYER")
 public abstract class Player {
 	//	Fields

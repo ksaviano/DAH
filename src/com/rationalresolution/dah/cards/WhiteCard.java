@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "CARDWHITECARD")
 public class WhiteCard extends Card {
 	//	Fields

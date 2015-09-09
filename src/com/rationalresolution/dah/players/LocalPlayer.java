@@ -2,7 +2,7 @@ package com.rationalresolution.dah.players;
 
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "LOCALPLAYER")
 public class LocalPlayer extends Player {
 	//	Fields

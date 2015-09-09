@@ -3,7 +3,7 @@ package com.rationalresolution.dah.cards;
 import java.util.ArrayList;
 import javax.persistence.*;
 
-@Entity
+
 @Table(name = "CARD")
 public abstract class Card {
 	//	Fields
