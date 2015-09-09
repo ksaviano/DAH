@@ -2,8 +2,8 @@ package com.rationalresolution.dah.players;
 
 import javax.persistence.*;
 
-
-@Table(name = "PlayerProfile")
+@Entity
+@Table(name = "PLAYERPROFILE")
 public class PlayerProfile {
 	//	Fields
 	

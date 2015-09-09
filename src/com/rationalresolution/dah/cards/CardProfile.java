@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.*;
 
-
-@Table(name = "CardProfile")
+@Entity
+@Table(name = "CARDPROFILE")
 public class CardProfile {
 	//	Fields
 	@Column(name = "cpPKey")
@@ -16,10 +16,10 @@ public class CardProfile {
 	@Column(name = "cpCardSet")
 	private eCardSet cardSet 						= eCardSet.OR;
 	
-	@Column(name = "cpCardDescVotes")
+	
 	private Map<String, Integer> cardDescVotes		= new HashMap<>();
 	
-	@Column(name = "cpCardRatings")
+	
 	private Map<String, Integer> cardRatings		= new HashMap<>();
 	
 	//	Enum

@@ -2,8 +2,8 @@ package com.rationalresolution.dah.cards;
 
 import javax.persistence.*;
 
-
-@Table(name = "PlayVWin")
+@Entity
+@Table(name = "PLAYVWIN")
 public class PlayVWin {
 	//	Fields
 	@Column(name = "pvwPKey")

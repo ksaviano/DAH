@@ -2,8 +2,8 @@ package com.rationalresolution.dah.players;
 
 import javax.persistence.*;
 
-
-@Table(name = "LocalPlayer")
+@Entity
+@Table(name = "LOCALPLAYER")
 public class LocalPlayer extends Player {
 	//	Fields
 	
@@ -12,9 +12,7 @@ public class LocalPlayer extends Player {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int lpPKey;
 	
-	@Column(name = "lpplFKey")
-	@OneToOne
-	@JoinColumn(name = "plPKey")
+
 	private int lpplFKey					= getPlayerID();
 	
 	@Column(name = "lpPassword")

@@ -2,8 +2,8 @@ package com.rationalresolution.dah.cards;
 
 import javax.persistence.*;
 
-
-@Table(name = "BlackCard")
+@Entity
+@Table(name = "CARDBLACKCARD")
 public class BlackCard extends Card {
 	//	Fields
 	
@@ -12,14 +12,14 @@ public class BlackCard extends Card {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int bcPKey;
 	
-	@Column(name = "bccbFKey")
+	@Column(name = "CARDID")
 	@JoinColumn(name = "cbPKey")
 	private int bccbFKey								= getCardID();
 	
 	@Column(name = "bcBlanks")
 	private int blanks 									= 0;
 	
-	@Column(name = "bcQStructure")
+	
 	private String[] qStructure;
 	
 	@Column(name = "bcQStructSwitch")
@@ -95,7 +95,7 @@ public class BlackCard extends Card {
 		}
 	}
 	
-	public void setReadAloud() {			//	if no parameter, use default method to make sound file
+	public void setReadAloud() {							//	if no parameter, use default method to make sound file
 		for (String text : qStructure) {
 			setReadAloud(defTextToVoice(text));
 		}

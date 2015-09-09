@@ -4,8 +4,8 @@ import javax.persistence.*;
 
 import com.rationalresolution.dah.cards.WhiteCard;
 
-
-@Table(name = "Player")
+@Entity
+@Table(name = "PLAYER")
 public abstract class Player {
 	//	Fields
 	
@@ -17,12 +17,10 @@ public abstract class Player {
 	@Column(name = "plUsername")
 	private String username;
 	
-	@Column(name = "plProfile")
-	@OneToOne
-	@JoinColumn(name = "ppPKey")
+
 	private PlayerProfile profile 					= new PlayerProfile();
 	
-	@Column(name = "plHand")
+
 	protected WhiteCard[] hand 						= new WhiteCard[7];
 	
 	//	Constructor

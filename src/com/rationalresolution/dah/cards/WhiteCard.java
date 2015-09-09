@@ -4,8 +4,8 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.*;
 
-
-@Table(name = "WhiteCard")
+@Entity
+@Table(name = "CARDWHITECARD")
 public class WhiteCard extends Card {
 	//	Fields
 	
@@ -14,7 +14,7 @@ public class WhiteCard extends Card {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int wcPKey;
 	
-	@Column(name = "wccbFKey")														//	1:1 relationship with parent class Card
+	@Column(name = "CARDID")														//	1:1 relationship with parent class Card
 	@JoinColumn(name = "cbPKey")
 	private int wccbFKey 							= getCardID();
 	
@@ -24,14 +24,10 @@ public class WhiteCard extends Card {
 	@Column(name = "wcPlayed")
 	private int played 								= 0;
 	
-	@Column(name = "wcCombos")
-	@ManyToOne
-	@JoinColumn(name = "bcPKey")
+
 	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
 	
-	@Column(name = "wcStats")
-	@OneToOne
-	@JoinColumn(name = "plwPKey")
+
 	private PlayVWin stats 							= new PlayVWin();
 	
 	//	Constructor

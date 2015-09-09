@@ -3,25 +3,21 @@ package com.rationalresolution.dah.cards;
 import java.util.ArrayList;
 import javax.persistence.*;
 
-
-@Table(name = "Card")
+@Entity
+@Table(name = "CARD")
 public abstract class Card {
 	//	Fields
 	
 	@Column(name = "cbPKey")
 	@Id									
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	private int cardID 						= 0;					//	Primary Key whatever
+	private int cardID;										//	Primary Key
 	
 	@Column(name = "cbCardText")		
 	private String cardText 				= "Insert text here";
 	
-	@Column(name = "cbReadAloud")		
 	private ArrayList<String> readAloud		= new ArrayList<>();
 	
-	@Column(name = "cbProfile")
-	@OneToOne
-	@JoinColumn(name = "cpPKey")
 	private CardProfile profile 			= new CardProfile();
 	
 	@Column(name = "cbFavorited")
