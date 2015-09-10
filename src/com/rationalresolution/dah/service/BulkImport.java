@@ -8,43 +8,66 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class BulkImport {
-	public static ArrayList<String> parseWhiteCardtoSQL(String datafile) {
+import com.rationalresolution.dah.cards.*;
+
+public class BulkImport {	
+	public static ArrayList<String> parseCardtoSQL(String datafile, String cardtype) {
+		String fieldname = "";
+		String tablename = "";
+		if(cardtype.equals("BlackCard")) {									//	parse BlackCard
+			fieldname = "bcQuestionText";									
+			tablename = "APP.CARDBLACKCARD";								
+		}
+		else if(cardtype.equals("WhiteCard")) {								//  parse WhiteCard
+			fieldname = "wcCardText";										
+			tablename = "APP.CARDWHITECARD";								
+		}
+		else {
+			System.out.println("Error - illegal cardtype (BlackCard/WhiteCard)");
+			return new ArrayList<String>();
+		}
+		
 		String sInput;
 		ArrayList<String> incArray = new ArrayList<>();
-
-		try(FileReader     fReader    = new FileReader(datafile); 			//	with ArrayList, just read in file
-			BufferedReader inFromFile = new BufferedReader(fReader)) {		//	1 line at a time, return incArray
-				while((sInput = inFromFile.readLine()) != null) {
-					sInput = sInput.replace("'", "''");
-					incArray.add("INSERT INTO APP.CARDWHITECARD (\"wcCardText\") VALUES ('" + sInput + "');\n");
+		String sourceBlank = "_";
+		String targetBlank = "[BLANK]";
+		Pattern p = Pattern.compile(sourceBlank);
+		Matcher m;
+		
+		try(FileReader		fReader		= new FileReader(datafile);
+			BufferedReader	inFromFile	= new BufferedReader(fReader)) {
+			while((sInput = inFromFile.readLine()) != null) {
+				m = p.matcher(sInput);
+				int count = 0;
+				while (m.find()) {
+					count++;
 				}
+				if(count < 2) {						
+					sInput = sInput.replace(sourceBlank, targetBlank);
+					sInput = sInput.replace("'", "''");
+					sInput = sInput.replace("&#34;", "\"");
+					incArray.add("INSERT INTO " + tablename + "(\"" + fieldname + "\") VALUES ('" + sInput + "');\n");
+				}
+			}
 		}
 		catch(Exception e) {
-			System.out.println("parseWhiteCardtoSQL:\n" + e);
+			System.out.println("parseCardtoSQL:\n" + e);
 		}
 		return incArray;
 	}
-	
-	public static ArrayList<String> parseWhiteCardtoJava(String datafile) {
-		String sInput;
-		ArrayList<String> incArray = new ArrayList<>();
 
-		try(FileReader     fReader    = new FileReader(datafile); 			//	with ArrayList, just read in file
-			BufferedReader inFromFile = new BufferedReader(fReader)) {		//	1 line at a time, return incArray
-				while((sInput = inFromFile.readLine()) != null) {
-					sInput = sInput.replace("'", "''");
-					incArray.add(sInput);
-				}
+	public static void createSQLFile(ArrayList<String> incArray, String cardtype) {
+		String filename = "";
+		if(cardtype.equals("BlackCard")) {
+			filename = "BlackCardSQL.sql";
 		}
-		catch(Exception e) {
-			System.out.println("parseWhiteCardtoJava:\n" + e);
+		else if(cardtype.equals("WhiteCard")) {
+			filename = "WhiteCardSQL.sql";
 		}
-		return incArray;
-	}
-	
-	public static void createWhiteSQLFile(ArrayList<String> incArray) {
-		String filename = "WhiteCardSQL.sql";
+		else {
+			System.out.println("Error - illegal cardtype (BlackCard/WhiteCard)");
+			return;
+		}
 		
 		try(FileWriter 		fWriter		= new FileWriter(filename);
 			BufferedWriter  inFromFile  = new BufferedWriter(fWriter)) {
@@ -53,91 +76,42 @@ public class BulkImport {
 			}
 		}
 		catch(Exception e) {
-			System.out.println("createWhiteSQLFile:\n" + e);
+			System.out.println("createSQLFile:\n" + e);
 		}
 	}
-	
-	public static ArrayList<String> parseBlackCardtoSQL(String datafile) {
-		String sInput;
+	public static void parseCardtoJava(String datafile, String cardtype) {		
+		String sInput = "";
 		ArrayList<String> incArray = new ArrayList<>();
 		String sourceBlank = "_";
 		String targetBlank = "[BLANK]";
 		Pattern p = Pattern.compile(sourceBlank);
 		Matcher m;
 		
-		try(FileReader		fReader		= new FileReader(datafile);
-			BufferedReader	inFromFile	= new BufferedReader(fReader)) {
-			while((sInput = inFromFile.readLine()) != null) {
-				m = p.matcher(sInput);
-				int count = 0;
-				while (m.find()) {
-					count++;
+		for (String string : incArray) {
+			m = p.matcher(sInput);
+			int count = 0;
+			while (m.find()) {
+				count++;
+			}
+			if(count < 2) {						
+				sInput = sInput.replace(sourceBlank, targetBlank);
+				sInput = sInput.replace("'", "''");
+				sInput = sInput.replace("&#34;", "\"");
+				if(cardtype.equals("BlackCard")) {
+					new BlackCard(sInput, count);
 				}
-				if(count < 2) {						
-					sInput = sInput.replace(sourceBlank, targetBlank);
-					sInput = sInput.replace("'", "''");
-					sInput = sInput.replace("&#34;", "\"");
-					incArray.add("INSERT INTO APP.CARDBLACKCARD (\"bcQuestionText\") VALUES ('" + sInput + "');\n");
+				else if (cardtype.equals("WhiteCard")) {
+					new WhiteCard(sInput);
+				}
+				else {
+					System.out.println("Error - illegal cardtype (BlackCard/WhiteCard)");
 				}
 			}
-		}
-		catch(Exception e) {
-			System.out.println("parseBlackCardtoSQL:\n" + e);
-		}
-		return incArray;
-	}
-
-	public static ArrayList<String> parseBlackCardtoJava(String datafile) {
-		String sInput;
-		ArrayList<String> incArray = new ArrayList<>();
-		String sourceBlank = "_";
-		String targetBlank = "[BLANK]";
-		Pattern p = Pattern.compile(sourceBlank);
-		Matcher m;
-		
-		try(FileReader		fReader		= new FileReader(datafile);
-			BufferedReader	inFromFile	= new BufferedReader(fReader)) {
-			while((sInput = inFromFile.readLine()) != null) {
-				m = p.matcher(sInput);
-				int count = 0;
-				while (m.find()) {
-					count++;
-				}
-				if(count < 2) {						
-					sInput = sInput.replace(sourceBlank, targetBlank);
-					sInput = sInput.replace("'", "''");
-					sInput = sInput.replace("&#34;", "\"");
-					incArray.add(sInput);
-				}
-			}
-		}
-		catch(Exception e) {
-			System.out.println("parseBlackCardtoJava:\n" + e);
-		}
-		return incArray;
-	}
-	public static void constructWhiteCards(ArrayList<String> incArray) {
-		
-	}
-	
-	
-	public static void createBlackSQLFile(ArrayList<String> incArray) {
-		String filename = "BlackCardSQL.sql";
-		
-		try(FileWriter		fWriter		= new FileWriter(filename);
-			BufferedWriter	inFromFile	= new BufferedWriter(fWriter)) {
-			for(String string : incArray) {
-				fWriter.write(string);
-			}
-		}
-		catch(Exception e) {
-			System.out.println("createBlackSQLFile:\n" + e);
 		}
 	}
 	
 	public static void main(String[] args) {
-		createWhiteSQLFile(parseWhiteCard("/Users/KSaviano/Documents/answers.txt"));
-		createBlackSQLFile(parseBlackCard("/Users/KSaviano/Documents/questions.txt"));
+		parseCardtoJava("answers.txt", "WhiteCard");
 	}
 }
 

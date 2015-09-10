@@ -7,7 +7,7 @@ import javax.persistence.*;
 
 import com.rationalresolution.dah.mech.UtilReadAloud;
 
-
+@Entity
 @Table(name = "CARDWHITECARD")
 public class WhiteCard {
 	//	Fields
@@ -26,21 +26,24 @@ public class WhiteCard {
 	@Column(name = "wcPlayed")
 	private int played 								= 0;
 
-	private ArrayList<String> readAloud				= new ArrayList<>();
-	private CardProfile profile						= new CardProfile();
+//	private ArrayList<String> readAloud				= new ArrayList<>();
+//	private CardProfile profile						= new CardProfile();
 
-	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
+//	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
 	
 
-	private PlayVWin stats 							= new PlayVWin();
+//	private PlayVWin stats 							= new PlayVWin();
 	
 	//	Constructor
 	public WhiteCard() {
 		
 	}
 	
-	public WhiteCard(int i, String text) {
-		UtilReadAloud.setReadAloud(text);
+	public WhiteCard(String text) {
+		setCardText(text);
+//		UtilReadAloud.setReadAloud(text);
+		wins = 0;
+		played = 0;
 	}
 	
 	//	Accessor Methods
@@ -48,26 +51,25 @@ public class WhiteCard {
 	public int getWins()					{ return wins;		}
 	public int getPlayed()					{ return played;	}
 	public String getCardText()				{ return cardText;	}
-	public Map<String, Integer> getCombos()	{ return combos;	}
-	
-	public void setWcPKey()					{}						//	NEED AUTO GENERATED ID PROCESS
+//	public Map<String, Integer> getCombos()	{ return combos;	}
+
+	public void setCardText(String t)		{ cardText = t;		}
 	public void setWins()					{ wins++;			}
 	public void setPlayed()					{ played++;			}
-	public void setCombos(String bcFKey) {
-		if(combos.containsKey(bcFKey)) {
-			combos.put(bcFKey, (combos.get(bcFKey) + 1));
-		}
-		else {
-			combos.put(bcFKey, 1);	
-		}
-	}
+//	public void setCombos(String bcFKey) {
+//		if(combos.containsKey(bcFKey)) {
+//			combos.put(bcFKey, (combos.get(bcFKey) + 1));
+//		}
+//		else {
+//			combos.put(bcFKey, 1);	
+//		}
+//	}
 	
-	public void setCardText(String text) {
-		//	ensure no duplicates in DB
-		cardText = text;
-	}
+
 	
 	//	Methods
-
+	public void commitNewCardtoDB() {
+		
+	}
 	
 }

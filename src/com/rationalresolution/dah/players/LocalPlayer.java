@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 import com.rationalresolution.dah.cards.*;
 
-@Entity
+
 @Table(name = "LOCALPLAYER")
 public class LocalPlayer implements Player {
 	//	Fields
@@ -20,7 +20,7 @@ public class LocalPlayer implements Player {
 	@Column(name = "lpPassword")
 	private String password;
 	
-	private PlayerProfile profile					= new PlayerProfile();
+//	private PlayerProfile profile					= new PlayerProfile();
 	protected WhiteCard[] hand						= new WhiteCard[7];
 	
 	//	Constructor

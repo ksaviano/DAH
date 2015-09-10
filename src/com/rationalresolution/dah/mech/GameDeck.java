@@ -12,7 +12,7 @@ public class GameDeck {
 	private Stack<BlackCard> blackCards;
 	
 	
-	WhiteCard HOLDER = new WhiteCard(0, "HOLDER");
+	WhiteCard HOLDER = new WhiteCard("HOLDER");
 	BlackCard SAMPLE = new BlackCard();
 	
 	//	Constructor

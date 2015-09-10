@@ -16,7 +16,7 @@ public class BlackCard {
 	private int cardID;
 
 	@Column(name = "bcQuestionText")
-	private String bcQuestionText						= "Insert Question text here.";
+	private String questionText							= "Insert Question text here.";
 
 	@Column(name = "bcBlanks")
 	private int blanks 									= 0;
@@ -37,7 +37,9 @@ public class BlackCard {
 		
 	}
 	
-	public BlackCard(int id, String text) {
+	public BlackCard(String text, int blanks) {
+		setBlanks(blanks);
+		setQuestionText(text);
 		parseQuestion(text);
 		for (String string : qStructure) {
 			UtilReadAloud.setReadAloud(UtilReadAloud.defTextToVoice(string));
@@ -49,7 +51,8 @@ public class BlackCard {
 	public int getBlanks()					{ return blanks;		}
 	public String[] getQStructure()			{ return qStructure;	}
 	
-	public void setBlanks()					{ blanks++;				}
+	public void setBlanks(int b)			{ blanks = b;			}
+	public void setQuestionText(String t)	{ questionText = t;		}
 	
 	public void setCardText(String text) {														//	Need QA and Database work on card text
 		//	ensure no duplicates in DB
@@ -62,27 +65,27 @@ public class BlackCard {
 	//	Methods
 	public void parseQuestion(String text) {
 		if(text.contains("[BLANK]")) {
-			blanks = 1;
 			if(text.startsWith("[BLANK]")) {
-				setBlanks();
+				setBlanks(1);
 				qStructure = new String[1];
 				qStructure[0] = text.substring(6);
 				qStructSwitch = 'a';						//	[Blank / Text]
 			}
 			else if(text.endsWith("[BLANK].") || text.endsWith("[BLANK]?") || text.endsWith("[BLANK]!")) {
-				setBlanks();
+				setBlanks(1);
 				qStructure = new String[2];
 				qStructure[1] = text.substring(text.length()-1, text.length());
 				qStructure[0] = text.replace("[BLANK]", "");
 				qStructSwitch = 'b';						//	[Text / Blank]
 			}
 			else {
-				setBlanks();
+				setBlanks(1);
 				qStructure = text.split("[BLANK]", 2);
 				qStructSwitch = 'c';						//	[Text / Blank / Text]
 			}
 		}
-		else { 
+		else {
+			setBlanks(0);
 			qStructure = new String[1];
 			qStructure[0] = text;
 			qStructSwitch = 'd'; 							//	[Text]
