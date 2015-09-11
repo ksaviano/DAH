@@ -23,7 +23,7 @@
   
   <servlet-mapping>
   	<servlet-name>Game</servlet-name>
-  	<url-pattern>/choosecard</url-pattern>
+  	<url-pattern>/StartGame.html</url-pattern>
   </servlet-mapping>
   
 </web-app>

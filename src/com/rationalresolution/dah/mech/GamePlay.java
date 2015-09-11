@@ -1,9 +1,9 @@
 package com.rationalresolution.dah.mech;
 
 import com.rationalresolution.dah.players.*;
-import com.rationalresolution.dah.cards.*;
 
-//	NOT A PERSISTENT CLASS
+//	DESTROY THIS CLASS!
+
 public class GamePlay {
 	//	Fields
 	private int gameID;										//	gpgrFKey

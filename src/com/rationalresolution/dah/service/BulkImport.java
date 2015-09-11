@@ -8,6 +8,11 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.EntityTransaction;
+import javax.persistence.Persistence;
+
 import com.rationalresolution.dah.cards.*;
 
 public class BulkImport {	
@@ -79,39 +84,74 @@ public class BulkImport {
 			System.out.println("createSQLFile:\n" + e);
 		}
 	}
-	public static void parseCardtoJava(String datafile, String cardtype) {		
+	public static int parseCardtoJava(String datafile, String cardtype) {		
 		String sInput = "";
 		ArrayList<String> incArray = new ArrayList<>();
 		String sourceBlank = "_";
 		String targetBlank = "[BLANK]";
 		Pattern p = Pattern.compile(sourceBlank);
 		Matcher m;
+		int cardcount = 0;
+		int indexcount = 0;
+		int lastIndex = 0;
 		
-		for (String string : incArray) {
-			m = p.matcher(sInput);
-			int count = 0;
-			while (m.find()) {
-				count++;
-			}
-			if(count < 2) {						
-				sInput = sInput.replace(sourceBlank, targetBlank);
-				sInput = sInput.replace("'", "''");
-				sInput = sInput.replace("&#34;", "\"");
+		EntityManagerFactory emf = null;
+		EntityManager em = null;
+		emf = Persistence.createEntityManagerFactory("DAH");
+		em = emf.createEntityManager();
+		EntityTransaction et = em.getTransaction();
+		
+		try(FileReader		fReader		= new FileReader(datafile);
+			BufferedReader	inFromFile	= new BufferedReader(fReader)) {
+			while((sInput = inFromFile.readLine()) != null) {
+				m = p.matcher(sInput);
 				if(cardtype.equals("BlackCard")) {
-					new BlackCard(sInput, count);
+					m.find();					
+					sInput = sInput.replace(sourceBlank, targetBlank);
+					sInput = sInput.replace("'", "''");
+					sInput = sInput.replace("&#34;", "\"");
+					while(lastIndex != -1){
+					    lastIndex = sInput.indexOf(targetBlank,lastIndex);
+					    if(lastIndex != -1) {
+					        indexcount++;
+					        lastIndex += targetBlank.length();
+					    }
+					}
+					    et.begin();
+					    	em.persist(new BlackCard(sInput, indexcount));
+					    	indexcount = 0;
+					    	lastIndex = 0;
+					    et.commit();
 				}
 				else if (cardtype.equals("WhiteCard")) {
-					new WhiteCard(sInput);
+					et.begin();
+					em.persist(new WhiteCard(sInput));
+					et.commit();
 				}
 				else {
 					System.out.println("Error - illegal cardtype (BlackCard/WhiteCard)");
 				}
-			}
+			}	
 		}
+		catch(Exception e) {
+			System.out.println("Error when parsing file:\n" + e);
+		}
+		return cardcount;
 	}
 	
 	public static void main(String[] args) {
-		parseCardtoJava("answers.txt", "WhiteCard");
+
+		try {
+//			et.begin();
+			int x = parseCardtoJava("answers.txt", "WhiteCard");
+			System.out.println("White Cards added: " + x);
+			int y = parseCardtoJava("questions.txt", "BlackCard");
+			System.out.println("Black Cards added: " + y);
+//			et.commit();
+		}
+		catch(Exception e) {
+			System.out.println("Error in Bulk Upload\n" + e);
+		}
 	}
 }
 

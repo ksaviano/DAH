@@ -1,8 +1,7 @@
 package com.rationalresolution.dah.players;
 
 import com.rationalresolution.dah.cards.*;
-import javax.persistence.*;
-
+import com.rationalresolution.dah.mech.JunkPile;
 
 public class GhostPlayer implements Player {
 	//	Fields
@@ -20,6 +19,15 @@ public class GhostPlayer implements Player {
 	
 	public void setGhostName(Ghosts g)			{ ghostName = g;	}
 	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;	}
+
+	//	Constructor
+	public GhostPlayer() {
+		
+	}
+	
+	public GhostPlayer(Ghosts g) {
+		setGhostName(g);
+	}
 	
 	//	Methods
 
@@ -31,7 +39,15 @@ public class GhostPlayer implements Player {
 
 	public WhiteCard playCard(int x) {			//	ROUND OF PLAY STEP 3
 		WhiteCard playedCard = hand[x];
+		JunkPile.setJunkPile(playedCard);
+		playedCard.setPlayed();
 		hand[x] = null;
 		return playedCard;
+	}
+	
+	public void discard(int x) {
+		WhiteCard discardedCard = hand[x];
+		JunkPile.setJunkPile(discardedCard);
+		hand[x] = null;
 	}
 }

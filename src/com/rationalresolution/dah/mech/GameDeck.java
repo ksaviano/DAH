@@ -2,48 +2,55 @@ package com.rationalresolution.dah.mech;
 
 import java.util.Stack;
 
+import javax.persistence.EntityManager;
+//  import javax.persistence.EntityManagerFactory;				REMOVE IF NOT NEEDED
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
+
 import com.rationalresolution.dah.cards.*;
 
 public class GameDeck {
 	//	Fields
-	public static final int WCCOUNT = 85;			//	5 players (4 ghosts + 1 real) with init 7 + 10 draws = 85
+	public static final int WCCOUNT = 90;			//	5 players (4 ghosts + 1 real) with init 7 + 11 draws = 90
 	public static final int BCCOUNT = 10;			//	10 rounds in standard game
+	private static EntityManager em = null;
 	private Stack<WhiteCard> whiteCards;
 	private Stack<BlackCard> blackCards;
-	
-	
-	WhiteCard HOLDER = new WhiteCard("HOLDER");
-	BlackCard SAMPLE = new BlackCard();
+	int wcCount = ((Number)em.createNamedQuery("CARDWHITECARD.findAll(Count)").getSingleResult()).intValue(); 
+	int bcCount = ((Number)em.createNamedQuery("CARDBLACKCARD.findALL(Count)").getSingleResult()).intValue();
 	
 	//	Constructor
 	public GameDeck() {
+		System.out.println("In Game Deck Constructor");
 		for(int i = 0; i < WCCOUNT; i++) {
-			whiteCards.push(randoWCPick());
+			WhiteCard tempWC;
+			do {
+				tempWC = randoWCPicks();
+			} while(whiteCards.search(tempWC) > -1); 
+			whiteCards.push(tempWC);
+			tempWC = null;
 		}
+	
 		for(int j = 0; j < BCCOUNT; j++) {
-			blackCards.push(randoBCPick());
+			BlackCard tempBC;
+			do {
+				tempBC = randoBCPicks();
+			} while(blackCards.search(tempBC) > -1);
+			blackCards.push(tempBC);
+			tempBC = null;
 		}
 	}
 	
 	//	Accessor Methods
-	public WhiteCard getWhiteCards()	{ return whiteCards.pop();	}
-	public BlackCard getBlackCards()	{ return blackCards.pop();	}
+	public WhiteCard getWhiteCard()		{ return whiteCards.pop();	}
+	public BlackCard getBlackCard()		{ return blackCards.pop();	}
 	
-	public void setWhiteCards()			{ whiteCards.push(randoWCPick());	}
-	public void setBlackCards()			{ blackCards.push(randoBCPick());	}
-					
 	//	Methods
-	public WhiteCard randoWCPick() {
-		//	pick random WhiteCard from table
-		//	ensure it is not in current deck
-		
-		return HOLDER;
+	private WhiteCard randoWCPicks() {
+		return em.find(WhiteCard.class, (Math.random() * wcCount));
 	}
 	
-	public BlackCard randoBCPick() {
-		//	pick random BlackCard from table
-		//	ensure it is not in current deck
-		
-		return SAMPLE;
+	private BlackCard randoBCPicks() {
+		return em.find(BlackCard.class, (Math.random() * bcCount));
 	}
 }

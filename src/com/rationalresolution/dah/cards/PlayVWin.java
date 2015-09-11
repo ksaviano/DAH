@@ -2,6 +2,7 @@ package com.rationalresolution.dah.cards;
 
 import javax.persistence.*;
 
+//	DESTROY THIS CLASS AND TABLE!
 
 @Table(name = "PLAYVWIN")
 public class PlayVWin {

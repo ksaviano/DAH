@@ -7,4 +7,5 @@ public interface Player {
 	public int decideCard();
 	public WhiteCard playCard(int x);
 	public WhiteCard[] getHand();
+	public void discard(int x);
 }

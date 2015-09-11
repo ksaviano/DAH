@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 import javax.persistence.*;
 
+//	THIS CLASS WILL BE IMPLEMENTED IN A FUTURE VERSION!
 
 @Table(name = "CARDPROFILE")
 public class CardProfile {
@@ -18,9 +19,6 @@ public class CardProfile {
 	
 	@Column(name = "cpFavorited")
 	private int favorited							= 0;
-	
-	@Column(name = "cpDealt")
-	private int dealt								= 0;
 	
 	private Map<String, Integer> cardDescVotes		= new HashMap<>();
 	
@@ -43,7 +41,6 @@ public class CardProfile {
 	public int getCp_ID()						{ return cpPKey;										}
 	public eCardSet getCardSet()				{ return cardSet;					}
 	public int getFavorited()					{ return favorited;					}
-	public int getDealt()						{ return dealt;						}
 	public Integer getCardDescVotes(String s)	{ return cardDescVotes.get(s);						}
 	public int getCardRating() {
 		int average = 0;
@@ -56,7 +53,7 @@ public class CardProfile {
 	public void setCpPKey()						{ }					//	Need automatic assignment of cpPKey
 	public void setCardSet(eCardSet e)			{ cardSet = e;										}
 	public void setFavorited()					{ favorited++;						}
-	public void setDealt()						{ dealt++;							}
+
 	public void setCardDescVotes(String s) {
 		if(cardDescVotes.containsKey(s)) {
 			cardDescVotes.put(s, (cardDescVotes.get(s) + 1));

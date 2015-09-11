@@ -4,5 +4,5 @@ import com.rationalresolution.dah.players.LocalPlayer;
 
 public interface UserDAO {
 	public LocalPlayer getPlayer(LocalPlayer p);
-	public boolean playerExists(String username);
+//	public boolean playerExists(LocalPlayer p);
 }
