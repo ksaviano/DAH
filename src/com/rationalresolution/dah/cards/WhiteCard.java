@@ -1,11 +1,6 @@
 package com.rationalresolution.dah.cards;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Map;
 import javax.persistence.*;
-
-import com.rationalresolution.dah.mech.UtilReadAloud;
 
 @Entity
 @Table(name = "CARDWHITECARD")
@@ -91,5 +86,9 @@ public class WhiteCard {
 		catch(Exception e) {
 			System.out.println("Error in commitWhiteCard. Card not added." + e);
 		}
+	}
+	
+	public String toString() {
+		return getCardText();
 	}
 }

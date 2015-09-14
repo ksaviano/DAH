@@ -48,12 +48,17 @@ public class BlackCard {
 	}
 	
 	//	Accessor Methods
-	public int getcardID()					{ return cardID;		}
+	public int getCardID()					{ return cardID;		}
 	public int getBlanks()					{ return blanks;		}
 //	public String[] getQStructure()			{ return qStructure;	}
+	public String getQuestionText()			{ return questionText;	}
 	
 	public void setBlanks(int b)			{ blanks = b;			}
 	public void setQuestionText(String t)	{ questionText = t;		}
+	
+	public String toString() {
+		return getQuestionText();
+	}
 	
 //	public void setCardText(String text) {														//	Need QA and Database work on card text
 		//	ensure no duplicates in DB
@@ -96,6 +101,7 @@ public class BlackCard {
 //	public String displayQuestion(String[] qStruct, char qStructSwitch) {
 //		switch(qStructSwitch) {
 //		case 'a':	return (blank + qStructure[0]);
+//					break;
 //		case 'b':	return (qStructure[0] + " " + blank + qStructure[1]);
 //		case 'c':	return (qStructure[0] + " " + blank + " " + qStructure[2]);
 //		case 'd':	return (qStructure[0]);

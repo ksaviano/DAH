@@ -52,7 +52,7 @@ public class LoginController {
 		emf = Persistence.createEntityManagerFactory("DAH");
 		em = emf.createEntityManager();
 		
-		LocalPlayer temp = (LocalPlayer) em.createQuery("SELECT p from LocalPlayer p WHERE p.username = :user").setParameter("user", u).getSingleResult();
+		LocalPlayer temp = (LocalPlayer) em.createQuery("SELECT p from LocalPlayer p WHERE p.username = :user AND p.password = :pass").setParameter("user", u).setParameter("pass", p).getSingleResult();
 		if(temp != null) {
 			return temp;
 		}

@@ -26,4 +26,9 @@
   	<url-pattern>/StartGame.html</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+  	<servlet-name>Game</servlet-name>
+  	<url-pattern>SelectWinner.html</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

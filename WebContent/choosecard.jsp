@@ -8,24 +8,21 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${round}" /></h1>
+		<h1>ROUND <c:out value="${roundnum}" /></h1>
 		
-		BLACK CARD: <c:out value="${blackcard}" />
+		BLACK CARD: <c:out value="${blackcard.toString()}" />
 		
-		<form action="SelectWinner" method="POST" >
+		<form action="SelectWinner.html" method="POST" >
 		
-		<input type="hidden" value="${players}" />
-		<input type="hidden" value="${deck}" />
-		<input type="hidden" value="${junkpile}" />
-		
+		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />
 		<table border="1" class="left">
-			<tr> <td> <input type="radio" value="${card[0]}"> <c:out value="${card[0]}" /> </td>
-				 <td> <input type="radio" value="${card[1]}"> <c:out value="${card[1]}" /> </td> </tr>
-			<tr> <td> <input type="radio" value="${card[2]}"> <c:out value="${card[2]}" /> </td>	
-				 <td> <input type="radio" value="${card[3]}"> <c:out value="${card[3]}" /> </td> </tr>
-			<tr> <td> <input type="radio" value="${card[4]}"> <c:out value="${card[4]}" /> </td>	
-				 <td> <input type="radio" value="${card[5]}"> <c:out value="${card[5]}" /> </td> </tr>
-			<tr> <td> <input type="radio" value="${card[6]}"> <c:out value="${card[6]}" /> </td>	
+			<tr> <td> <input type="radio" name="playerchoice" value="card0"> <c:out value="${card0.toString()}" /> </td>
+				 <td> <input type="radio" name="playerchoice" value="card1"> <c:out value="${card1.toString()}"/> </td> </tr>
+			<tr> <td> <input type="radio" name="playerchoice" value="card2"> <c:out value="${card2.toString()}" /> </td>	
+				 <td> <input type="radio" name="playerchoice" value="card3"> <c:out value="${card3.toString()}" /> </td> </tr>
+			<tr> <td> <input type="radio" name="playerchoice" value="card4"> <c:out value="${card4.toString()}" /> </td>	
+				 <td> <input type="radio" name="playerchoice" value="card5"> <c:out value="${card5.toString()}" /> </td> </tr>
+			<tr> <td> <input type="radio" name="playerchoice" value="card6"> <c:out value="${card6.toString()}" /> </td>	
 				 <td> <input type="submit" value="Submit" /> </td> </tr>
 		</table>
 		

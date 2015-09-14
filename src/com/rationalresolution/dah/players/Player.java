@@ -8,4 +8,5 @@ public interface Player {
 	public WhiteCard playCard(int x);
 	public WhiteCard[] getHand();
 	public void discard(int x);
+	public String getUsername();
 }

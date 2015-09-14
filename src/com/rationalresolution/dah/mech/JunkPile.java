@@ -17,7 +17,7 @@ public class JunkPile {
 	
 	//	Constructor
 	public JunkPile() {
-		
+		System.out.println("in JunkPile class constructor");
 	}
 	
 	public static WhiteCard getJunkPile(int i)			{ return junkPile.get(i);	}

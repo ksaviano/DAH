@@ -6,7 +6,7 @@ import com.rationalresolution.dah.mech.JunkPile;
 public class GhostPlayer implements Player {
 	//	Fields
 	private int ghostID;
-	private Ghosts ghostName;
+	private Ghosts ghostname;
 	protected WhiteCard[] hand					= new WhiteCard[7];
 	
 	
@@ -14,10 +14,11 @@ public class GhostPlayer implements Player {
 	
 	//	Accessor Methods
 	public int getGhostID()						{ return ghostID;	}
-	public Ghosts getGhostName()				{ return ghostName;	}
+	public Ghosts getGhostname()				{ return ghostname;	}
+	public String getUsername()					{ return "" + getGhostname(); }
 	public WhiteCard[] getHand()				{ return hand;		}
 	
-	public void setGhostName(Ghosts g)			{ ghostName = g;	}
+	public void setGhostname(Ghosts g)			{ ghostname = g;	}
 	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;	}
 
 	//	Constructor
@@ -26,7 +27,7 @@ public class GhostPlayer implements Player {
 	}
 	
 	public GhostPlayer(Ghosts g) {
-		setGhostName(g);
+		setGhostname(g);
 	}
 	
 	//	Methods
@@ -49,5 +50,9 @@ public class GhostPlayer implements Player {
 		WhiteCard discardedCard = hand[x];
 		JunkPile.setJunkPile(discardedCard);
 		hand[x] = null;
+	}
+	
+	public String toString() {
+		return "" + getGhostname();
 	}
 }

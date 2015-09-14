@@ -13,48 +13,52 @@ import com.rationalresolution.dah.cards.*;
 import com.rationalresolution.dah.mech.*;
 
 @Controller
-@SessionAttributes(value={"player", "deck", "junkpile"})
+@SessionAttributes(value={"deck", "junkpile", "players", "roundnum" })
 @RequestMapping("/StartGame")
 public class StartGameController {
 	
-	@ModelAttribute("player")
-	public LocalPlayer bringPlayer() {
-		return new LocalPlayer();
-	}
-	
 	@ModelAttribute("deck")
 	public GameDeck bringDeck() {
+		System.out.println("in StartGameController.bringDeck");
 		return new GameDeck();
 	}
 	
 	@ModelAttribute("junkpile")
 	public JunkPile bringJunkPile() {
+		System.out.println("in StartGameController.bringJunkPile");
 		return new JunkPile();
 	}
 	
 	@ModelAttribute("players")
 	public Players bringPlayers() {
+		System.out.println("in StartGameController.bringPlayers");
 		return new Players();
 	}
-
+	
+	@ModelAttribute("roundnum")
+	public int bringRoundnum() {
+		System.out.println("in StartGameController.bringRoundnum");
+		return 0;
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView onStartOfGame(  @ModelAttribute("player") LocalPlayer pl,
 										@ModelAttribute("deck") GameDeck deck,
 										@ModelAttribute("junkpile") JunkPile junkpile,
 										@ModelAttribute("players") Players players,
-										@RequestParam("username") String u,
-										@RequestParam("password") String p) {
+										@ModelAttribute("roundnum") int roundnum) {
 		ModelAndView mv = new ModelAndView("choosecard");
-		//	DEBUG!
-		System.out.println("DEBUG! In Start Game Controller.java\n" + p );
-		pl.setUsername(u);
-		pl.setPassword(p);
+		
+		System.out.println("DEBUG! In Start Game Controller.java\n" + pl.toString() );
+		
 		players.setLocalPlayer(pl);
-		DealCards.dealStart(players, deck);
-		System.out.println(players.getLocalPlayer().getHand()[1]);
+		System.out.println("DEBUG! StartGameController (after players.setLocalPlayer(pl))\t" + players.toString());
+		DealCards.dealStart(players, deck, junkpile);
+		System.out.println("DEBUG! StartGameController line (after DealCards.dealStart(p, d, j))\t" + players.getLocalPlayer());
 		
 		WhiteCard[] currentHand = players.getLocalPlayer().getHand();
 		mv.addObject("card0", currentHand[0]);
+		System.out.println(players.getLocalPlayer().getUsername() + "\t" + currentHand[0].toString());
 		mv.addObject("card1", currentHand[1]);
 		mv.addObject("card2", currentHand[2]);
 		mv.addObject("card3", currentHand[3]);
@@ -62,11 +66,7 @@ public class StartGameController {
 		mv.addObject("card5", currentHand[5]);
 		mv.addObject("card6", currentHand[6]);
 		mv.addObject("blackcard", deck.getBlackCard());
-		mv.addObject("players", players);
-		mv.addObject("deck", deck);
-		mv.addObject("junkpile", junkpile);
-		
-		
+
 		return mv;
 	}
 }

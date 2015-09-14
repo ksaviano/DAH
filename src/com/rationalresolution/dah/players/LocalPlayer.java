@@ -1,13 +1,18 @@
 package com.rationalresolution.dah.players;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Transient;
 
-import com.rationalresolution.dah.cards.*;
-import com.rationalresolution.dah.mech.*;
+import com.rationalresolution.dah.cards.WhiteCard;
 
 @Entity
 @Table(name = "LOCALPLAYER")
-public class LocalPlayer implements Player, java.io.Serializable {
+public class LocalPlayer implements Player {
 	//	Fields
 	
 	@Column(name = "lpPKey")
@@ -41,16 +46,16 @@ public class LocalPlayer implements Player, java.io.Serializable {
 	public int getPlayerID()			{ return playerID;			}
 	public String getUsername()			{ return username;			}
 	public String getPassword()			{ return password;			}
-	public WhiteCard[] getHand()		{ return new WhiteCard[7];		}
+	public WhiteCard[] getHand()		{ return hand;		}
 	
 	public void setUsername(String u)			{ username = u;		}
 	public void setPassword(String p)			{ password = p; 	}					//	I think there is some password automation avail
-	public void setHand(WhiteCard wc, int a)	{ /*hand[a] = wc;*/		}
+	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;		}
 	
 	
 	//	Methods
 	public int decideCard() {						//	ROUND OF PLAY STEP 2
-		//	Have player select the card they want to play
+		//	not used - here so Player Interface can have method so players.decideCard() can work for ghosts
 		int x = 0;									// this will be return from ChooseCard.jsp
 		return x;
 	}
@@ -70,6 +75,8 @@ public class LocalPlayer implements Player, java.io.Serializable {
 //		hand[x] = null;
 	}
 	
-	//	Named Queries
+	public String toString() {
+		return username;
+	}
 	
 }

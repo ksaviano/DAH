@@ -1,21 +1,31 @@
 package com.rationalresolution.dah.mech;
 
 import com.rationalresolution.dah.players.*;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
+
 import com.rationalresolution.dah.cards.*;
 
-//	NOT A PERSISTENT CLASS
+@Controller
+@SessionAttributes
 public class DealCards {
 	
 	//	Fields
-	private GameDeck deck = new GameDeck();
+//	private GameDeck deck = new GameDeck();
+	
 	
 	//	Methods
-	public static void dealStart(Players players, GameDeck deck) {		//	ROUND OF PLAY STEP 0
+	public static void dealStart(@ModelAttribute("players")  Players players, 
+								 @ModelAttribute("deck")     GameDeck deck,
+								 @ModelAttribute("junkpile") JunkPile junkpile) {		//	ROUND OF PLAY STEP 0
 		for(int i = 0; i < 7; i++) {
 			for (Player player : players.getPlayers()) {
 				WhiteCard temp = deck.getWhiteCard();
 				temp.setDealt();
-//				player.setHand(temp, i);
+				player.setHand(temp, i);
+				System.out.println(player.toString() + "\t" + i + "\t" + player.getHand()[i].toString());
 				temp = null;
 			}
 		}
@@ -38,7 +48,7 @@ public class DealCards {
 		}
 	}
 	
-	public BlackCard flipBlackCard() {									//	ROUND OF PLAY STEP 1
+	public BlackCard flipBlackCard(@ModelAttribute("deck")	GameDeck deck) {									//	ROUND OF PLAY STEP 1
 		return deck.getBlackCard();
 	}
 }
