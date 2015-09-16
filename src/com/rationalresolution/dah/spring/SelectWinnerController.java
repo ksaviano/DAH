@@ -17,18 +17,25 @@ import com.rationalresolution.dah.mech.*;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-@SessionAttributes
+@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playerschoices" })
 @RequestMapping("/SelectWinner")
 public class SelectWinnerController {
+	
+	@ModelAttribute("playersChoices")
+	public WhiteCard[] bringPlayersChoices() {
+		System.out.println("inSelectWinnerController.bringPlayersChoices");
+		return new WhiteCard[5];
+	}
 
 	@RequestMapping(method=RequestMethod.POST)	
 	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
 											@ModelAttribute("junkpile") JunkPile junkpile,
 											@ModelAttribute("players") Players players,
 											@ModelAttribute("roundnum") int roundnum,
+											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
 											@RequestParam("blackcardID") int bcPKey,
 											@RequestParam("playerchoice") String playerchoice) {
-		ModelAndView mv = new ModelAndView("choosecard");
+		ModelAndView mv = new ModelAndView("selectwinner");
 		
 		System.out.println("DEBUG! In SelectWinnerController.java\n");
 		BlackCard blackcardforround = bringBlackCard(bcPKey);
@@ -64,7 +71,6 @@ public class SelectWinnerController {
 		}
 		System.out.println("DEBUG! SelectWinnerController (after swithc on playerchoice)\t" + playerwc.toString());
 		
-		WhiteCard[] playersChoices = new WhiteCard[5];
 		for (int i = 1; i < 5; i++) {
 			playersChoices[i] = players.getPlayers()[i].getHand()[players.getPlayers()[i].decideCard()];
 		}
@@ -73,13 +79,6 @@ public class SelectWinnerController {
 							players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
 							players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1]);
 		
-		
-		
-		mv.addObject("card0", playersChoices[0]);
-		mv.addObject("card1", playersChoices[1]);
-		mv.addObject("card2", playersChoices[2]);
-		mv.addObject("card3", playersChoices[3]);
-		mv.addObject("card4", playersChoices[4]);
 		mv.addObject("blackcard", blackcardforround);
 		return mv;
 	}
@@ -90,7 +89,7 @@ public class SelectWinnerController {
 		emf = Persistence.createEntityManagerFactory("DAH");
 		em = emf.createEntityManager();
 		
-		BlackCard temp = (BlackCard) em.createQuery("SELECT b from BlackCard p WHERE b.CardID = :key").setParameter("key", bcPKey).getSingleResult();
+		BlackCard temp = (BlackCard) em.createQuery("SELECT b from BlackCard b WHERE b.cardID = :key").setParameter("key", bcPKey).getSingleResult();
 		if(temp != null) {
 			return temp;
 		}

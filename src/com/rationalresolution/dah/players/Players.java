@@ -26,6 +26,8 @@ public class Players {
 											  players[3] = new GhostPlayer(Ghosts.INKY);
 											  players[4] = new GhostPlayer(Ghosts.CLYDE); }
 	
+	
+	
 	public String toString() {
 		return "Players:\t" + players[0].toString() + "\t" + players[1].toString() + "\t" + players[2].toString() + "\t" + players[3].toString() + "\t" + players[4].toString();
 	}
