@@ -52,13 +52,10 @@ public class StartGameController {
 		System.out.println("DEBUG! In Start Game Controller.java\n" + pl.toString() );
 		
 		players.setLocalPlayer(pl);
-		System.out.println("DEBUG! StartGameController (after players.setLocalPlayer(pl))\t" + players.toString());
 		DealCards.dealStart(players, deck, junkpile);
-		System.out.println("DEBUG! StartGameController line (after DealCards.dealStart(p, d, j))\t" + players.getLocalPlayer());
 		
 		WhiteCard[] currentHand = players.getLocalPlayer().getHand();
 		mv.addObject("card0", currentHand[0]);
-		System.out.println(players.getLocalPlayer().getUsername() + "\t" + currentHand[0].toString());
 		mv.addObject("card1", currentHand[1]);
 		mv.addObject("card2", currentHand[2]);
 		mv.addObject("card3", currentHand[3]);
