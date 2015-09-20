@@ -12,13 +12,13 @@
 		
 		BLACK CARD: <c:out value="${blackcard.toString()}" />
 		
-		<form action="NextRound.html" method="POST" >
+		<form action="EndOfRound.html" method="POST" >
 		
 		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />
-		<
+		
 		
 		<table border="1" class="left">
-			<tr> <td> <input type="radio" name="roundwinner" value="localPlayer">	<c:out value="${playersChoices[0].toString()}" /> </td>
+			<tr> <td> <input type="radio" name="roundwinner" value="localPlayer">	Hi!<c:out value="${playersChoices[0].toString()}" /> </td>
 				 <td> <input type="radio" name="roundwinner" value="Blinky"> 		<c:out value="${playersChoices[1].toString()}" /> </td> </tr>
 			<tr> <td> <input type="radio" name="roundwinner" value="Pinky"> 		<c:out value="${playersChoices[2].toString()}" /> </td>	
 				 <td> <input type="radio" name="roundwinner" value="Inky"> 			<c:out value="${playersChoices[3].toString()}" /> </td> </tr>

@@ -23,8 +23,7 @@ public class JunkPile {
 	public static WhiteCard getJunkPile(int i)			{ return junkPile.get(i);	}
 	public static void setJunkPile(WhiteCard wc) {
 		wc.setPlayed();
-		arraySpot++;
-		junkPile.add(arraySpot, wc);
+		junkPile.add(arraySpot++, wc);
 	}
 	
 	public static void discardRemainingHands(Players players) {
@@ -51,5 +50,14 @@ public class JunkPile {
 		}
 		em.merge(player);
 		et.commit();
+	}
+	
+	@Override
+	public String toString() {
+		String myreturn = "";
+		for (WhiteCard whiteCard : junkPile) {
+			myreturn = myreturn + whiteCard.toString();			
+		}
+		return myreturn;
 	}
 }

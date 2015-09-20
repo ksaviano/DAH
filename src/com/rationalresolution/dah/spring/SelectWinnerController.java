@@ -17,7 +17,7 @@ import com.rationalresolution.dah.mech.*;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playerschoices" })
+@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/SelectWinner")
 public class SelectWinnerController {
 	
@@ -72,9 +72,9 @@ public class SelectWinnerController {
 		System.out.println("DEBUG! SelectWinnerController (after swithc on playerchoice)\t" + playerwc.toString());
 		
 		for (int i = 1; i < 5; i++) {
-			playersChoices[i] = players.getPlayers()[i].getHand()[players.getPlayers()[i].decideCard()];
+			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());
 		}
-		playersChoices[0] = players.getPlayers()[0].getHand()[playerwcArraySpot];
+		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
 		System.out.println("DEBUG! First 2 array spots of playersChoices (following decide card for Ghosts)" +
 							players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
 							players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1]);
@@ -98,5 +98,7 @@ public class SelectWinnerController {
 			return new BlackCard();
 		}
 	}
+	
+	
 	
 }

@@ -9,6 +9,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.rationalresolution.dah.cards.WhiteCard;
+import com.rationalresolution.dah.mech.JunkPile;
 
 @Entity
 @Table(name = "LOCALPLAYER")
@@ -46,7 +47,7 @@ public class LocalPlayer implements Player {
 	public int getPlayerID()			{ return playerID;			}
 	public String getUsername()			{ return username;			}
 	public String getPassword()			{ return password;			}
-	public WhiteCard[] getHand()		{ return hand;		}
+	public WhiteCard[] getHand()		{ return hand;				}
 	
 	public void setUsername(String u)			{ username = u;		}
 	public void setPassword(String p)			{ password = p; 	}					//	I think there is some password automation avail
@@ -61,11 +62,10 @@ public class LocalPlayer implements Player {
 	}
 	
 	public WhiteCard playCard(int x) {				//	ROUND OF PLAY STEP 3
-//		WhiteCard playedCard = hand[x];
-//		JunkPile.setJunkPile(playedCard);
-//		playedCard.setPlayed();
-//		hand[x] = null;
-		WhiteCard playedCard = new WhiteCard();
+		WhiteCard playedCard = hand[x];
+		JunkPile.setJunkPile(playedCard);
+		playedCard.setPlayed();
+		hand[x] = null;
 		return playedCard;
 	}
 

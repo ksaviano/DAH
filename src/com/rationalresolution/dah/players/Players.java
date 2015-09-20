@@ -5,7 +5,8 @@ import com.rationalresolution.dah.players.GhostPlayer.Ghosts;
 public class Players {
 	//	Fields
 	private Player[] players = new Player[5];
-	private static int round = 0;
+	private int[] points = new int[5];
+	private static int round = 1;
 	
 	//	Constructor
 	public Players() {
@@ -18,6 +19,9 @@ public class Players {
 	public int getRound()			{ return round;			}
 	public LocalPlayer getLocalPlayer()	{ return (LocalPlayer) players[0];	}
 	public GhostPlayer getGhostPlayer(int i) { return (GhostPlayer) players[i]; }
+	public int getPoints(int x)		{
+		return points[x];
+	}
 	
 	public void setRound()				 	{ round++;			}
 	public void setLocalPlayer(Player p)	{ players[0] = p;	}
@@ -25,6 +29,7 @@ public class Players {
 											  players[2] = new GhostPlayer(Ghosts.PINKY);
 											  players[3] = new GhostPlayer(Ghosts.INKY);
 											  players[4] = new GhostPlayer(Ghosts.CLYDE); }
+	public void setPoints(int x)			{ points[x] += 10;	}
 	
 	
 	

@@ -1,5 +1,9 @@
 package com.rationalresolution.dah.cards;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.*;
 
 @Entity
@@ -24,10 +28,13 @@ public class WhiteCard {
 	@Column(name = "wcDealt")
 	private int dealt								= 0;
 
-//	private ArrayList<String> readAloud				= new ArrayList<>();
+	@Transient
+	private ArrayList<String> readAloud				= new ArrayList<>();
+	
 //	private CardProfile profile						= new CardProfile();
 
-//	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
+	@Transient
+	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
 	
 
 //	private PlayVWin stats 							= new PlayVWin();
@@ -51,21 +58,21 @@ public class WhiteCard {
 	public int getPlayed()					{ return played;	}
 	public String getCardText()				{ return cardText;	}
 	public int getDealt()					{ return dealt;		}
-//	public Map<String, Integer> getCombos()	{ return combos;	}
+	public Map<String, Integer> getCombos()	{ return combos;	}
 
 	public void setCardID()					{ cardID = 1348;	}
 	public void setCardText(String t)		{ cardText = t;		}
 	public void setWins()					{ wins++;			}
 	public void setPlayed()					{ played++;			}
 	public void setDealt()					{ dealt++;			}
-//	public void setCombos(String bcFKey) {
-//		if(combos.containsKey(bcFKey)) {
-//			combos.put(bcFKey, (combos.get(bcFKey) + 1));
-//		}
-//		else {
-//			combos.put(bcFKey, 1);	
-//		}
-//	}
+	public void setCombos(String bcFKey) {
+		if(combos.containsKey(bcFKey)) {
+			combos.put(bcFKey, (combos.get(bcFKey) + 1));
+		}
+		else {
+			combos.put(bcFKey, 1);	
+		}
+	}
 	
 
 	

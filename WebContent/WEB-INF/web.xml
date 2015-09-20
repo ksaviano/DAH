@@ -31,4 +31,14 @@
   	<url-pattern>/SelectWinner.html</url-pattern>
   </servlet-mapping>
   
+  <servlet-mapping>
+  	<servlet-name>Game</servlet-name>
+  	<url-pattern>/EndOfRound.html</url-pattern>
+  </servlet-mapping>
+  
+  <servlet-mapping>
+  	<servlet-name>Game</servlet-name>
+  	<url-pattern>/NextRound.html</url-pattern>
+  </servlet-mapping>
+  
 </web-app>

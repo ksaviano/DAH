@@ -31,19 +31,22 @@ public class DealCards {
 		}
 	}
 	
-	public static void dealNextRound(Player[] players, GameDeck deck) {	//	ROUND OF PLAY STEP 7
-		//	find empty slot in player hand, insert there
-		for (Player player : players) {
-			int i;
-			WhiteCard temp = deck.getWhiteCard();
-			WhiteCard[] playerhand = player.getHand();
-			for (i = 0; i < 7; i++) {
-				if(playerhand[i] == null) {
-					break;
+	public static void dealNextRound(@ModelAttribute("players")  Players players, 
+									 @ModelAttribute("deck") 	 GameDeck deck,
+									 @ModelAttribute("junkpile") JunkPile junkpile) {	//	ROUND OF PLAY STEP 7
+		for(int i = 0; i < 7; i++) {
+			if(players.getLocalPlayer().getHand()[i] == null) {
+				players.getLocalPlayer().setHand(deck.getWhiteCard(), i);
+				players.getLocalPlayer().getHand()[i].setDealt();
+			}
+		}
+		
+		for(int i = 1; i < 5; i++) {
+			for(int j = 0; j < 7; j++) {
+				if(players.getGhostPlayer(i).getHand()[j] == null) {
+					players.getGhostPlayer(i).setHand(deck.getWhiteCard(), j);
+					players.getGhostPlayer(i).getHand()[j].setDealt();
 				}
-			temp.setDealt();
-			player.setHand(temp, i);
-			temp = null;
 			}
 		}
 	}

@@ -4,13 +4,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.rationalresolution.dah.players.*;
-import com.rationalresolution.dah.cards.*;
-import com.rationalresolution.dah.mech.*;
+import com.rationalresolution.dah.cards.WhiteCard;
+import com.rationalresolution.dah.mech.DealCards;
+import com.rationalresolution.dah.mech.GameDeck;
+import com.rationalresolution.dah.mech.JunkPile;
+import com.rationalresolution.dah.players.LocalPlayer;
+import com.rationalresolution.dah.players.Players;
 
 @Controller
 @SessionAttributes(value={"deck", "junkpile", "players", "roundnum" })
@@ -38,7 +40,7 @@ public class StartGameController {
 	@ModelAttribute("roundnum")
 	public int bringRoundnum() {
 		System.out.println("in StartGameController.bringRoundnum");
-		return 0;
+		return 1;
 	}
 	
 	@RequestMapping(method=RequestMethod.POST)
@@ -47,7 +49,7 @@ public class StartGameController {
 										@ModelAttribute("junkpile") JunkPile junkpile,
 										@ModelAttribute("players") Players players,
 										@ModelAttribute("roundnum") int roundnum) {
-		ModelAndView mv = new ModelAndView("choosecard");
+		ModelAndView mv = new ModelAndView("choosecard");								// next Controller = 
 		
 		System.out.println("DEBUG! In Start Game Controller.java\n" + pl.toString() );
 		
