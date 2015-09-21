@@ -8,9 +8,11 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${roundnum}" /></h1>
+		<h1>ROUND <c:out value="${endOfRound}" /></h1>
 		
-		BLACK CARD: <c:out value="${blackcardforround.toString()}" /> <br>
+		<h2>The winner of the round has been selected!</h2>
+		
+		BLACK CARD: <c:out value="${blackcard.toString()}" /> <br>
 		WINNING CARD: <c:out value="${winningCard.toString()}" />
 		
 		

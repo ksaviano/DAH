@@ -3,6 +3,7 @@ package com.rationalresolution.dah.spring;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -17,28 +18,35 @@ import com.rationalresolution.dah.mech.*;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
+//	@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/SelectWinner")
 public class SelectWinnerController {
 	
-	@ModelAttribute("playersChoices")
+/*	@ModelAttribute("playersChoices")
 	public WhiteCard[] bringPlayersChoices() {
 		System.out.println("inSelectWinnerController.bringPlayersChoices");
 		return new WhiteCard[5];
-	}
+	}*/
 
 	@RequestMapping(method=RequestMethod.POST)	
-	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
+	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") int bcPKey, 
+										   @RequestParam("playerchoice") String playerchoice, 
+										   HttpSession session) {
+/*	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
 											@ModelAttribute("junkpile") JunkPile junkpile,
 											@ModelAttribute("players") Players players,
 											@ModelAttribute("roundnum") int roundnum,
 											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
 											@RequestParam("blackcardID") int bcPKey,
-											@RequestParam("playerchoice") String playerchoice) {
+											@RequestParam("playerchoice") String playerchoice) {*/
 		ModelAndView mv = new ModelAndView("selectwinner");
 		
-		System.out.println("DEBUG! In SelectWinnerController.java\n");
+		WhiteCard[] playersChoices = new WhiteCard[5];
+		Players players 	= (Players) 	session.getAttribute("players");
+		JunkPile junkpile	= (JunkPile)	session.getAttribute("junkpile");
 		BlackCard blackcardforround = bringBlackCard(bcPKey);
+		
+		System.out.println("DEBUG! In SelectWinnerController.java\n");
 		System.out.println("DEBUG! SelectWinnerController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
 		
 		WhiteCard playerwc;
@@ -71,15 +79,21 @@ public class SelectWinnerController {
 		}
 		System.out.println("DEBUG! SelectWinnerController (after swithc on playerchoice)\t" + playerwc.toString());
 		
+		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
 		for (int i = 1; i < 5; i++) {
 			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());
 		}
-		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
-		System.out.println("DEBUG! First 2 array spots of playersChoices (following decide card for Ghosts)" +
+		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +
 							players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
-							players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1]);
+							players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1] + "\n" +
+							players.getPlayers()[2].getUsername() + ":\t" + playersChoices[2] + "\n" +
+							players.getPlayers()[3].getUsername() + ":\t" + playersChoices[3] + "\n" +
+							players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n" +
+							junkpile.toString());
+		
 		
 		mv.addObject("blackcard", blackcardforround);
+		session.setAttribute("playersChoices", playersChoices);
 		return mv;
 	}
 	

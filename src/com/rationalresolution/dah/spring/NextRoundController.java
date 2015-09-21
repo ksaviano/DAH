@@ -1,5 +1,7 @@
 package com.rationalresolution.dah.spring;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,25 +22,31 @@ import com.rationalresolution.dah.players.Players;
 public class NextRoundController {
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView onStartOfGame(  @ModelAttribute("player") LocalPlayer pl,
+	public ModelAndView onNextRound(HttpSession session) {
+/*	public ModelAndView onStartOfGame(  @ModelAttribute("player") LocalPlayer pl,
 										@ModelAttribute("deck") GameDeck deck,
 										@ModelAttribute("junkpile") JunkPile junkpile,
 										@ModelAttribute("players") Players players,
 										@ModelAttribute("roundnum") int roundnum,
 										@ModelAttribute("playersChoices") WhiteCard[] playersChoices)
-	{
+	{*/
 		ModelAndView mv;
-		System.out.println("DEBUG! In NextRoundController. roundnum = " + roundnum);
-		if(roundnum < 10) {		
+		
+		GameDeck deck 		= (GameDeck)	session.getAttribute("deck");
+		Players players 	= (Players) 	session.getAttribute("players");
+		JunkPile junkpile	= (JunkPile)	session.getAttribute("junkpile");
+		
+		System.out.println("DEBUG! In NextRoundController. roundnum = " + deck.getRoundnum());
+		if(deck.getRoundnum() < 5) {		
 			mv = new ModelAndView("choosecard");
 		}
 		else {
-			return new ModelAndView("endofgame");
+			mv = new ModelAndView("endofgame");
+			
+			return mv;
 		}
 		
-		System.out.println("DEBUG! In NextRound Controller.java\n" + pl.toString() );
-		
-		
+//		System.out.println("DEBUG! In NextRound Controller.java\n" + pl.toString() );
 		DealCards.dealNextRound(players, deck, junkpile);
 		
 		WhiteCard[] currentHand = players.getLocalPlayer().getHand();
@@ -50,6 +58,8 @@ public class NextRoundController {
 		mv.addObject("card5", currentHand[5]);
 		mv.addObject("card6", currentHand[6]);
 		mv.addObject("blackcard", deck.getBlackCard());
+		
+		
 
 		return mv;
 	}

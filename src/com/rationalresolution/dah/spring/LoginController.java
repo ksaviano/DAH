@@ -3,6 +3,8 @@ package com.rationalresolution.dah.spring;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -10,12 +12,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rationalresolution.dah.players.*;
 
 @Controller
-@SessionAttributes(value={"player"})
+//	@SessionAttributes(value={"player"})
 @RequestMapping("/login")
 public class LoginController {
 	//	Fields
@@ -23,14 +26,15 @@ public class LoginController {
 	//	Constructor
 	
 	//	Methods
-	@ModelAttribute("player")
+/*	@ModelAttribute("player")
 	public LocalPlayer setPlayerModel() {
 		return new LocalPlayer();
 		
-	}
+	}*/
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView onSubmit(@RequestParam("username") String u, @RequestParam("password") String p, @ModelAttribute("player") LocalPlayer incplayer) {
+	public ModelAndView onSubmit(@RequestParam("username") String u, @RequestParam("password") String p, HttpSession session) {
+		LocalPlayer incplayer = new LocalPlayer();
 		incplayer.setUsername(u);
 		incplayer.setPassword(p);
 		
@@ -42,6 +46,7 @@ public class LoginController {
 			ModelAndView mv = new ModelAndView("profile");
 			mv.addObject("playerPlayed", 0);
 			mv.addObject("playerHandsWon", 0);
+			session.setAttribute("localPlayer", incplayer);
 			return mv;
 		}
 	}

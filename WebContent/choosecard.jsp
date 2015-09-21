@@ -8,9 +8,11 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${roundnum}" /></h1>
+		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>
 		
-		BLACK CARD: <c:out value="${blackcard.toString()}" />
+		<h2>Select a card from your hand to play this round.</h2>
+		
+		BLACK CARD: <c:out value="${blackcard.toString()}" /><br/>
 		
 		<form action="SelectWinner.html" method="POST" >
 		

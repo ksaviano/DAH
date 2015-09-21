@@ -8,7 +8,9 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${roundnum}" /></h1>
+		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>
+		
+		<h2>Select the best card for this round.</h2>
 		
 		BLACK CARD: <c:out value="${blackcard.toString()}" />
 		

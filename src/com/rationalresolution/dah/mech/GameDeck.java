@@ -22,6 +22,7 @@ public class GameDeck {
 	
 	private LinkedHashSet<WhiteCard> whitedeck = new LinkedHashSet(WCCOUNT); 
 	private LinkedHashSet<BlackCard> blackdeck = new LinkedHashSet(BCCOUNT);
+	private int roundnum = 1;
 	
 	//	Constructor
 	public GameDeck() {
@@ -63,6 +64,9 @@ public class GameDeck {
 		bi.remove();
 		return temp;
 	}
+	
+	public int getRoundnum() 		{ return roundnum;	}
+	public void setRoundnum()		{ roundnum++;		}
 	
 	//	Methods
 	private WhiteCard randoWCPicks() {

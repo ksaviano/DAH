@@ -55,8 +55,9 @@ public class JunkPile {
 	@Override
 	public String toString() {
 		String myreturn = "";
+		int i = 0;
 		for (WhiteCard whiteCard : junkPile) {
-			myreturn = myreturn + whiteCard.toString();			
+			myreturn = myreturn + "#" + i++ + "\t" +whiteCard.toString() + "\n" ;			
 		}
 		return myreturn;
 	}
