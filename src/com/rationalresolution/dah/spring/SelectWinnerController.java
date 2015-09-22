@@ -80,7 +80,7 @@ public class SelectWinnerController {
 		System.out.println("DEBUG! SelectWinnerController (after swithc on playerchoice)\t" + playerwc.toString());
 		
 		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
-		for (int i = 1; i < 5; i++) {
+		for (int i = 1; i < GameDeck.BCCOUNT; i++) {
 			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());
 		}
 		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +

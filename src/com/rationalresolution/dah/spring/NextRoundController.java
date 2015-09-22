@@ -17,7 +17,7 @@ import com.rationalresolution.dah.players.LocalPlayer;
 import com.rationalresolution.dah.players.Players;
 
 @Controller
-@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
+// @SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/NextRound")
 public class NextRoundController {
 	

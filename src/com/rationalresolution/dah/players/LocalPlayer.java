@@ -27,7 +27,20 @@ public class LocalPlayer implements Player {
 	@Column(name = "lpPassword")
 	private String password;
 	
-//	private PlayerProfile profile				= new PlayerProfile();
+	@Column(name = "lpNickname")
+	private String nickname;
+	
+	@Column(name = "lpAvatar")
+	private String avatar;
+	
+	@Column(name = "lpGamesPlayed")
+	private int gamesPlayed;
+	
+	@Column(name = "lpHandsWon")
+	private int handsWon;
+	
+	@Column(name = "lpHorriblePoints")
+	private int horriblePoints;
 
 	@Transient
 	public WhiteCard[] hand						= new WhiteCard[7];
@@ -47,10 +60,21 @@ public class LocalPlayer implements Player {
 	public int getPlayerID()			{ return playerID;			}
 	public String getUsername()			{ return username;			}
 	public String getPassword()			{ return password;			}
+	public String getNickname()			{ return nickname;			}
+	public String getAvatar()			{ return avatar;			}
+	public int getGamesPlayed()			{ return gamesPlayed;		}
+	public int getHandsWon()			{ return handsWon;			}
+	public int getHorriblePoints()		{ return horriblePoints;	}
 	public WhiteCard[] getHand()		{ return hand;				}
 	
 	public void setUsername(String u)			{ username = u;		}
-	public void setPassword(String p)			{ password = p; 	}					//	I think there is some password automation avail
+	public void setPassword(String p)			{ password = p; 	}
+	public void setNickname(String n)			{ nickname = n;		}
+	public void setAvatar(String a)				{ avatar = a;		}
+	public void setGamesPlayed()				{ gamesPlayed++;	}
+	public void setHandsWon()					{ handsWon++;		}
+	public void setHorriblePoints(int x)		{ horriblePoints+=x;}
+	//	I think there is some password automation avail
 	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;		}
 	
 	

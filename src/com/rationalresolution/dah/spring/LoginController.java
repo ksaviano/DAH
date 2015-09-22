@@ -34,20 +34,29 @@ public class LoginController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView onSubmit(@RequestParam("username") String u, @RequestParam("password") String p, HttpSession session) {
-		LocalPlayer incplayer = new LocalPlayer();
-		incplayer.setUsername(u);
-		incplayer.setPassword(p);
-		
-		if(findPlayer(u, p) == null) {
+//		LocalPlayer incplayer = new LocalPlayer();
+//		incplayer.setUsername(u);
+//		incplayer.setPassword(p);
+//		
+//		if(findPlayer(u, p) == null) {
+//			String errorMsg = "Username/password combination not found.";
+//			return new ModelAndView("index", "error", errorMsg);
+//		}
+//		else {
+//			ModelAndView mv = new ModelAndView("profile");
+//			mv.addObject("playerPlayed", 0);
+//			mv.addObject("playerHandsWon", 0);
+//			session.setAttribute("localPlayer", incplayer);
+//			return mv;
+//		}
+		LocalPlayer incplayer = findPlayer(u, p);
+		if(incplayer == null) {
 			String errorMsg = "Username/password combination not found.";
 			return new ModelAndView("index", "error", errorMsg);
 		}
 		else {
-			ModelAndView mv = new ModelAndView("profile");
-			mv.addObject("playerPlayed", 0);
-			mv.addObject("playerHandsWon", 0);
 			session.setAttribute("localPlayer", incplayer);
-			return mv;
+			return new ModelAndView("profile");
 		}
 	}
 	

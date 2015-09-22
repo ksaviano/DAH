@@ -21,6 +21,8 @@ import com.rationalresolution.dah.players.*;
 //	@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/EndOfGame")
 public class EndofGameController {
+	public EntityManagerFactory emf;
+	public EntityManager em;
 	
 /*	@ModelAttribute("playersChoices")
 	public WhiteCard[] bringPlayersChoices() {
@@ -37,7 +39,48 @@ public class EndofGameController {
 											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
 											@RequestParam("blackcardID") int bcPKey,
 											@RequestParam("playerchoice") String playerchoice) {*/
+		
+		GameDeck deck				= (GameDeck)	session.getAttribute("deck");
+		JunkPile junkpile			= (JunkPile)	session.getAttribute("junkpile");
+		Players players				= (Players)		session.getAttribute("players");
+		GameResults gameResults		= (GameResults) session.getAttribute("gameResults");
+		
+		
 		System.out.println("In EndOfGameController. Kill session. quit.");
+		
+		
+		try {
+			emf = Persistence.createEntityManagerFactory("DAH");
+			em = emf.createEntityManager();
+			if(deck.getWhitedeck().size() != 0) {
+				// not all cards went to junkpile
+				System.out.println("DEBUG! EndofGameController: not all cards from whitedeck were discarded to junkpile!");
+				System.out.println("EXITING SYSTEM!");
+				System.exit(0);
+			}
+			
+			for(int i = 0; i < junkpile.getJunkPile().size(); i++) {
+				em.getTransaction().begin();
+				em.merge(junkpile.getJunkPile(i));
+				em.getTransaction().commit();
+				em.close();
+			}
+			
+			em.getTransaction().begin();
+			em.merge(players.getLocalPlayer());
+			em.getTransaction().commit();
+			em.close();
+			
+			em.getTransaction().begin();
+			em.merge(gameResults);
+			em.getTransaction().commit();
+			em.close();
+			emf.close();
+		}
+		catch(Exception e) {
+			System.out.println("EndofGameController exception: " + e);
+		}
+		
 		session.invalidate();
 		return new ModelAndView("index");
 	}

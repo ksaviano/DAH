@@ -10,14 +10,14 @@
 	<body>
 		<h1>Profile.jsp</h1>
 		
-		Welcome ${player.username}
+		Welcome ${localPlayer.username}
 		
 		<form action="StartGame.html" method="POST" >
 		<table border="1" class="left">
 			<tr><td>Your record:</td></tr>
-			<tr><td><td>Games played:	</td><td><c:out value="${playerPlayed}" />    </td></tr>
-			<tr><td><td>Hands won:		</td><td><c:out value="${playerHandsWon }" /> </td></tr>
-			<tr><td><td>Horrible Points:</td><td>feature not currently implemented.</td></tr>
+			<tr><td><td>Games played:	</td><td><c:out value="${localPlayer.getGamesPlayed()}" />    </td></tr>
+			<tr><td><td>Hands won:		</td><td><c:out value="${localPlayer.getHandsWon()}" /> </td></tr>
+			<tr><td><td>Horrible Points:</td><td><c:out value="${localPlayer.getHorriblePoints()}" /></td></tr>
 		</table>
 			
 			<input type="submit" value="PLAY!" />

@@ -22,7 +22,7 @@ public class GameDeck {
 	
 	private LinkedHashSet<WhiteCard> whitedeck = new LinkedHashSet(WCCOUNT); 
 	private LinkedHashSet<BlackCard> blackdeck = new LinkedHashSet(BCCOUNT);
-	private int roundnum = 1;
+	private int roundnum = 1;					
 	
 	//	Constructor
 	public GameDeck() {
@@ -52,6 +52,7 @@ public class GameDeck {
 	}
 	
 	//	Accessor Methods
+	public LinkedHashSet<WhiteCard> getWhitedeck()	{ return whitedeck; }
 	public WhiteCard getWhiteCard() {
 		Iterator<WhiteCard> wi = whitedeck.iterator();
 		WhiteCard temp = wi.next();

@@ -14,6 +14,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rationalresolution.dah.cards.BlackCard;
 import com.rationalresolution.dah.cards.WhiteCard;
 import com.rationalresolution.dah.mech.GameDeck;
+import com.rationalresolution.dah.mech.GameResults;
 import com.rationalresolution.dah.mech.JunkPile;
 import com.rationalresolution.dah.players.Players;
 
@@ -53,6 +54,8 @@ public class EndOfRoundController {
 		switch(roundwinner) {
 			case "localPlayer":	winningCard = junkpile.getJunkPile(junkrange + 0);
 								players.setPoints(0);
+								players.getLocalPlayer().setHandsWon();
+								players.getLocalPlayer().setHorriblePoints(10);
 								break;
 			case "Blinky":		winningCard = junkpile.getJunkPile(junkrange + 1);
 								players.setPoints(1);
@@ -78,6 +81,16 @@ public class EndOfRoundController {
 		mv.addObject("endOfRound", deck.getRoundnum());
 		deck.setRoundnum();
 		System.out.println("DEBUG! In EndofRoundController. roundnum = " + deck.getRoundnum());
+		
+		GameResults gameResults = new GameResults();
+		gameResults.setLocalPlayer1Score(players.getPoints(0));
+		gameResults.setBlinkyScore(players.getPoints(1));
+		gameResults.setPinkyScore(players.getPoints(2));
+		gameResults.setInkyScore(players.getPoints(3));
+		gameResults.setClydeScore(players.getPoints(4));
+		
+		session.setAttribute("gameResults", gameResults);
+		
 		return mv;
 	}
 	
