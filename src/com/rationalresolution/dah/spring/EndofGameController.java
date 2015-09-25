@@ -40,10 +40,11 @@ public class EndofGameController {
 											@RequestParam("blackcardID") int bcPKey,
 											@RequestParam("playerchoice") String playerchoice) {*/
 		
-		GameDeck deck				= (GameDeck)	session.getAttribute("deck");
-		JunkPile junkpile			= (JunkPile)	session.getAttribute("junkpile");
-		Players players				= (Players)		session.getAttribute("players");
-		GameResults gameResults		= (GameResults) session.getAttribute("gameResults");
+		GameDeck deck				= (GameDeck)		session.getAttribute("deck");
+		JunkPile junkpile			= (JunkPile)		session.getAttribute("junkpile");
+		Players players				= (Players)			session.getAttribute("players");
+		CardCombos[] cardCombos		= (CardCombos[])	session.getAttribute("cardcombos");
+		GameResults gameResults		= (GameResults) 	session.getAttribute("gameResults");
 		
 		
 		System.out.println("In EndOfGameController. Kill session. quit.");
@@ -52,14 +53,24 @@ public class EndofGameController {
 		try {
 			emf = Persistence.createEntityManagerFactory("DAH");
 			em = emf.createEntityManager();
-			if(deck.getWhitedeck().size() != 0) {
+			if(deck.getWhitedeck().size() != 0) {							//	Make sure that whitedeck has been discarded to junkpile
 				// not all cards went to junkpile
 				System.out.println("DEBUG! EndofGameController: not all cards from whitedeck were discarded to junkpile!");
 				System.out.println("EXITING SYSTEM!");
 				System.exit(0);
 			}
+			if(junkpile.getJunkPile().size() != deck.WCCOUNT) {				//	Make sure that junkpile has all of the whitecards
+				System.out.println("DEBUG! EndofGameController: not all cards are in the junkpile!");
+				System.out.println("EXITING SYSTEM!");
+				System.exit(0);
+			}
+			if(cardCombos.length != deck.BCCOUNT) {							//	Make sure that cardCombos has all winning combos (i.e., 1 for each blcakcard)
+				System.out.println("DEBUG! EndofGameController: not all cards are in the CardCombos!");
+				System.out.println("EXITING SYSTEM!");
+				System.exit(0);
+			}
 			
-			for(int i = 0; i < junkpile.getJunkPile().size(); i++) {
+			for(int i = 0; i < junkpile.getJunkPile().size(); i++) {		//	Commit all changes to whitecards back to DB		
 				em.getTransaction().begin();
 				em.merge(junkpile.getJunkPile(i));
 				em.getTransaction().commit();
@@ -67,11 +78,19 @@ public class EndofGameController {
 			}
 			
 			em.getTransaction().begin();
-			em.merge(players.getLocalPlayer());
+			em.merge(players.getLocalPlayer());								//	Commit all changes to LocalPlayer back to DB
 			em.getTransaction().commit();
 			em.close();
 			
-			em.getTransaction().begin();
+						
+			for(int i = 0; i < cardCombos.length; i++) {					//	Commit all changes/add new combos to DB
+				em.getTransaction().begin();
+				em.merge(cardCombos[i]);
+				em.getTransaction().commit();
+				em.close();
+			}
+			
+			em.getTransaction().begin();									//	Create new gameResults to DB
 			em.merge(gameResults);
 			em.getTransaction().commit();
 			em.close();

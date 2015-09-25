@@ -10,7 +10,7 @@
 	<body>
 		<h1>Profile.jsp</h1>
 		
-		Welcome ${localPlayer.username}
+		Welcome ${localPlayer.getUsername()}
 		
 		<form action="StartGame.html" method="POST" >
 		<table border="1" class="left">

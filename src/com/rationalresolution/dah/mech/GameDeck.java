@@ -1,5 +1,6 @@
 package com.rationalresolution.dah.mech;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -10,6 +11,7 @@ import javax.persistence.Persistence;
 import javax.persistence.Query;
 
 import com.rationalresolution.dah.cards.BlackCard;
+import com.rationalresolution.dah.cards.CardCombos;
 import com.rationalresolution.dah.cards.WhiteCard;
 
 public class GameDeck {
@@ -22,6 +24,7 @@ public class GameDeck {
 	
 	private LinkedHashSet<WhiteCard> whitedeck = new LinkedHashSet(WCCOUNT); 
 	private LinkedHashSet<BlackCard> blackdeck = new LinkedHashSet(BCCOUNT);
+	private ArrayList<CardCombos> refcombos	   = new ArrayList<>();
 	private int roundnum = 1;					
 	
 	//	Constructor
@@ -45,6 +48,8 @@ public class GameDeck {
 				tempBC = randoBCPicks();
 					if(blackdeck.add(tempBC)) { i++; }
 			}
+			
+			setRefcombos();
 		}
 		catch(Exception e) {
 			System.out.println("Error in Game Deck\n" + e);
@@ -69,6 +74,29 @@ public class GameDeck {
 	public int getRoundnum() 		{ return roundnum;	}
 	public void setRoundnum()		{ roundnum++;		}
 	
+	private void setRefcombos() {
+		CardCombos temp = new CardCombos();
+		String qString = "SELECT c FROM CardCombos c WHERE c.ccbcFKey = :bcKey AND c.ccwcFKey = :wcKey";
+		
+		for(int i = 0; i < blackdeck.size(); i++) {
+			Iterator<BlackCard> bi = blackdeck.iterator();
+			BlackCard btemp = bi.next();
+			int bc = btemp.getCardID();
+			for(int j = 0; j < whitedeck.size(); j++) {
+				Iterator<WhiteCard> wi = whitedeck.iterator();
+				WhiteCard wtemp = wi.next();
+				int wc = wtemp.getcardID();	
+				
+				Query query = em.createQuery(qString).setParameter("bcKey", bc).setParameter("wcKey", wc);
+				List<CardCombos> elementlist = query.getResultList();
+				if(elementlist.get(0) != null) {
+					refcombos.add(elementlist.get(0));
+				}
+			}
+		}
+	}
+	public ArrayList<CardCombos> getRefcombos()		{ return refcombos;	}
+	
 	//	Methods
 	private WhiteCard randoWCPicks() {
 		WhiteCard temp = new WhiteCard();
@@ -89,4 +117,5 @@ public class GameDeck {
 		temp = elementList.get(0);
 		return temp;
 	}
+	
 }

@@ -1,5 +1,7 @@
 package com.rationalresolution.dah.spring;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
@@ -7,6 +9,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.rationalresolution.dah.cards.CardCombos;
 import com.rationalresolution.dah.cards.WhiteCard;
 import com.rationalresolution.dah.mech.DealCards;
 import com.rationalresolution.dah.mech.GameDeck;
@@ -15,48 +18,19 @@ import com.rationalresolution.dah.players.LocalPlayer;
 import com.rationalresolution.dah.players.Players;
 
 @Controller
-// @SessionAttributes(value={"deck", "junkpile", "players", "roundnum" })
 @RequestMapping("/StartGame")
 public class StartGameController {
 	
-/*	@ModelAttribute("deck")
-	public GameDeck bringDeck() {
-		System.out.println("in StartGameController.bringDeck");
-		return new GameDeck();
-	}
-	
-	@ModelAttribute("junkpile")
-	public JunkPile bringJunkPile() {
-		System.out.println("in StartGameController.bringJunkPile");
-		return new JunkPile();
-	}
-	
-	@ModelAttribute("players")
-	public Players bringPlayers() {
-		System.out.println("in StartGameController.bringPlayers");
-		return new Players();
-	}
-	
-	@ModelAttribute("roundnum")
-	public int bringRoundnum() {
-		System.out.println("in StartGameController.bringRoundnum");
-		return 1;
-	}*/
-	
 	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView onStartOfGame(HttpSession session) {
-/*	public ModelAndView onStartOfGame(  @ModelAttribute("player") LocalPlayer pl,
-										@ModelAttribute("deck") GameDeck deck,
-										@ModelAttribute("junkpile") JunkPile junkpile,
-										@ModelAttribute("players") Players players,
-										@ModelAttribute("roundnum") int roundnum) {*/
-		ModelAndView mv = new ModelAndView("choosecard");									// next Controller = 
+		ModelAndView mv = new ModelAndView("choosecard");									
 		LocalPlayer pl = (LocalPlayer) session.getAttribute("localPlayer");
 		
 		GameDeck deck = new GameDeck();
 		JunkPile junkpile = new JunkPile();
 		Players players = new Players();
-		
+		ArrayList<CardCombos> refcc = deck.getRefcombos();
+		CardCombos[] cardcombos = new CardCombos[GameDeck.BCCOUNT];
 		System.out.println("DEBUG! In Start Game Controller.java\n" + pl.toString() );
 		
 		players.setLocalPlayer(pl);
@@ -75,6 +49,8 @@ public class StartGameController {
 		session.setAttribute("deck", deck);
 		session.setAttribute("junkpile", junkpile);
 		session.setAttribute("players", players);
+		session.setAttribute("cardCombos", cardcombos);
+		session.setAttribute("refcc", refcc);
 
 		return mv;
 	}

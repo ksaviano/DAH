@@ -77,10 +77,10 @@ public class SelectWinnerController {
 							playerwc = new WhiteCard();
 							break;
 		}
-		System.out.println("DEBUG! SelectWinnerController (after swithc on playerchoice)\t" + playerwc.toString());
+		System.out.println("DEBUG! SelectWinnerController (after switch on playerchoice)\t" + playerwc.toString());
 		
 		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
-		for (int i = 1; i < GameDeck.BCCOUNT; i++) {
+		for (int i = 1; i < playersChoices.length; i++) {
 			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());
 		}
 		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +
@@ -90,7 +90,6 @@ public class SelectWinnerController {
 							players.getPlayers()[3].getUsername() + ":\t" + playersChoices[3] + "\n" +
 							players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n" +
 							junkpile.toString());
-		
 		
 		mv.addObject("blackcard", blackcardforround);
 		session.setAttribute("playersChoices", playersChoices);

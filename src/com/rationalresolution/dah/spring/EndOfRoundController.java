@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rationalresolution.dah.cards.BlackCard;
+import com.rationalresolution.dah.cards.CardCombos;
 import com.rationalresolution.dah.cards.WhiteCard;
 import com.rationalresolution.dah.mech.GameDeck;
 import com.rationalresolution.dah.mech.GameResults;
@@ -19,7 +20,6 @@ import com.rationalresolution.dah.mech.JunkPile;
 import com.rationalresolution.dah.players.Players;
 
 @Controller
-//	@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/EndOfRound")
 public class EndOfRoundController {
 
@@ -29,19 +29,13 @@ public class EndOfRoundController {
 	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") String bcPKey,
 										   @RequestParam("roundwinner") String roundwinner,
 										   HttpSession session) {
-/*	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
-											@ModelAttribute("junkpile") JunkPile junkpile,
-											@ModelAttribute("players") Players players,
-											@ModelAttribute("roundnum") int roundnum,
-											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
-											@RequestParam("blackcardID") String bcPKey,
-											@RequestParam("roundwinner") String roundwinner) {*/
 		ModelAndView mv = new ModelAndView("showwinner");
 		
-		GameDeck deck 				= (GameDeck)	session.getAttribute("deck");
-		JunkPile junkpile 			= (JunkPile)	session.getAttribute("junkpile");
-		Players players 			= (Players)		session.getAttribute("players");
-		WhiteCard[] playersChoices 	= (WhiteCard[])	session.getAttribute("playersChoices");
+		GameDeck deck 				= (GameDeck)		session.getAttribute("deck");
+		JunkPile junkpile 			= (JunkPile)		session.getAttribute("junkpile");
+		Players players 			= (Players)			session.getAttribute("players");
+		WhiteCard[] playersChoices 	= (WhiteCard[])		session.getAttribute("playersChoices");
+		CardCombos[] cardcombos		= (CardCombos[])	session.getAttribute("cardcombos");
 		
 		System.out.println("DEBUG! In EndofRoundController.java\n");
 		BlackCard blackcardforround = bringBlackCard(Integer.parseInt(bcPKey));
@@ -73,7 +67,7 @@ public class EndOfRoundController {
 								System.out.println("Something has gone terribly wrong in NextRoundController when trying to switch on winningCard");
 								break;
 		}
-		winningCard.setCombos(bcPKey);
+		cardcombos[(deck.getRoundnum()-1)] = new CardCombos(winningCard.getcardID(), Integer.parseInt(bcPKey));
 		mv.addObject("blackcard", blackcardforround);
 		System.out.println("DEBUG! In EndofRoundController. blackcardforround = " + blackcardforround.toString());
 		mv.addObject("winningCard", winningCard);
