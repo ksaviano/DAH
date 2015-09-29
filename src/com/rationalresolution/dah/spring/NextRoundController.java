@@ -17,19 +17,11 @@ import com.rationalresolution.dah.players.LocalPlayer;
 import com.rationalresolution.dah.players.Players;
 
 @Controller
-// @SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/NextRound")
 public class NextRoundController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView onNextRound(HttpSession session) {
-/*	public ModelAndView onStartOfGame(  @ModelAttribute("player") LocalPlayer pl,
-										@ModelAttribute("deck") GameDeck deck,
-										@ModelAttribute("junkpile") JunkPile junkpile,
-										@ModelAttribute("players") Players players,
-										@ModelAttribute("roundnum") int roundnum,
-										@ModelAttribute("playersChoices") WhiteCard[] playersChoices)
-	{*/
 		ModelAndView mv;
 		
 		GameDeck deck 		= (GameDeck)	session.getAttribute("deck");
@@ -37,7 +29,7 @@ public class NextRoundController {
 		JunkPile junkpile	= (JunkPile)	session.getAttribute("junkpile");
 		
 		System.out.println("DEBUG! In NextRoundController. roundnum = " + deck.getRoundnum());
-		if(deck.getRoundnum() < 5) {		
+		if(deck.getRoundnum() < (deck.getTotalRounds()+1)) {		
 			mv = new ModelAndView("choosecard");
 		}
 		else {

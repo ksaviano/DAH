@@ -18,20 +18,22 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/login")										// 	picks up form action login.html from index.jsp
 public class LoginController {
 
 	//	Methods
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView onSubmit(@RequestParam("username") String u, @RequestParam("password") String p, HttpSession session) {
+	public ModelAndView onSubmit(@RequestParam("username") String u, 
+								 @RequestParam("password") String p, 
+								 HttpSession session) {
 		LocalPlayer incplayer = findPlayer(u, p);
-		if(incplayer == null) {
+		if(incplayer == null) {									//	loops page until it gets correct username/password
 			String errorMsg = "Username/password combination not found.";
 			return new ModelAndView("index", "error", errorMsg);
 		}
 		else {
-			session.setAttribute("localPlayer", incplayer);
-			return new ModelAndView("profile");
+			session.setAttribute("localPlayer", incplayer);		//	throws localPlayer into session 
+			return new ModelAndView("profile");					//	forwards to profile.jsp
 		}
 	}
 	
@@ -43,7 +45,7 @@ public class LoginController {
 		
 		LocalPlayer temp = (LocalPlayer) em.createQuery("SELECT p from LocalPlayer p WHERE p.username = :user AND p.password = :pass").setParameter("user", u).setParameter("pass", p).getSingleResult();
 		if(temp != null) {
-			return temp;
+			return temp;										//	returns localPlayer to main method
 		}
 		else {													//	FIGURE OUT WHAT TO DO WITH NULL RETURN
 			System.out.println("username not found.");

@@ -1,5 +1,7 @@
 package com.rationalresolution.dah.spring;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -20,36 +22,35 @@ import com.rationalresolution.dah.mech.JunkPile;
 import com.rationalresolution.dah.players.Players;
 
 @Controller
-@RequestMapping("/EndOfRound")
+@RequestMapping("/EndOfRound")																//	picks up form action EndOfRound.html from selectwinner.jsp
 public class EndOfRoundController {
 
-
-	
 	@RequestMapping(method=RequestMethod.POST)	
-	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") String bcPKey,
-										   @RequestParam("roundwinner") String roundwinner,
+	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") String bcPKey,		//	String of blackcard id from selectwinner.jsp
+										   @RequestParam("roundwinner") String roundwinner,	//	String of roundwinner (indicating player) from selectwinner.jsp
 										   HttpSession session) {
 		ModelAndView mv = new ModelAndView("showwinner");
 		
-		GameDeck deck 				= (GameDeck)		session.getAttribute("deck");
-		JunkPile junkpile 			= (JunkPile)		session.getAttribute("junkpile");
-		Players players 			= (Players)			session.getAttribute("players");
-		WhiteCard[] playersChoices 	= (WhiteCard[])		session.getAttribute("playersChoices");
-		CardCombos[] cardcombos		= (CardCombos[])	session.getAttribute("cardcombos");
+		GameDeck deck 				= (GameDeck)		session.getAttribute("deck");		//	get deck from session
+		JunkPile junkpile 			= (JunkPile)		session.getAttribute("junkpile");	//	get junkpile from session
+		Players players 			= (Players)			session.getAttribute("players");	//	get players from session
+		WhiteCard[] playersChoices 	= (WhiteCard[])		session.getAttribute("playersChoices");	//	get playersChoices from session
+		ArrayList<CardCombos> refcc = (ArrayList<CardCombos>)	session.getAttribute("refcc");	//	get refcc from session
+		GameResults gameResults		= (GameResults)		session.getAttribute("gameResults");	//	get gameResults from session
 		
-		System.out.println("DEBUG! In EndofRoundController.java\n");
-		BlackCard blackcardforround = bringBlackCard(Integer.parseInt(bcPKey));
-		System.out.println("DEBUG! In EndofRoundController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
-		System.out.println("DEBUG! In EndofRoundController. Round #" + deck.getRoundnum() + "(roundnum*5)-5 = " + ((deck.getRoundnum() * 5) -5));
-		System.out.println("DEBUG! In EndofRoundController. Is anything in junkpile?\n" + junkpile.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController.java\n");
+		BlackCard blackcardforround = bringBlackCard(Integer.parseInt(bcPKey));				//	uses method to get blackcard from DB
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. Round #" + deck.getRoundnum() + "(roundnum*5)-5 = " + ((deck.getRoundnum() * 5) -5));
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. Is anything in junkpile?\n" + junkpile.toString());
 
 		WhiteCard winningCard;
-		int junkrange = ((deck.getRoundnum() * 5)-5);
-		switch(roundwinner) {
-			case "localPlayer":	winningCard = junkpile.getJunkPile(junkrange + 0);
-								players.setPoints(0);
-								players.getLocalPlayer().setHandsWon();
-								players.getLocalPlayer().setHorriblePoints(10);
+		int junkrange = ((deck.getRoundnum() * 5)-5);										//	junkpile should get 5 cards per round so 1st set 0-5, 2nd 6-10, etc.
+		switch(roundwinner) {																//	switch on name of player who won
+			case "localPlayer":	winningCard = junkpile.getJunkPile(junkrange + 0);			//	gets card from junkpile (remains in junkpile)
+								players.setPoints(0);										//	set points (for use in EndOfGameController)
+								players.getLocalPlayer().setHandsWon();						//	player attribute HandsWon increased by 1
+								players.getLocalPlayer().setHorriblePoints(10);				//	player attribute HorriblePoints increased 10 points
 								break;
 			case "Blinky":		winningCard = junkpile.getJunkPile(junkrange + 1);
 								players.setPoints(1);
@@ -67,24 +68,30 @@ public class EndOfRoundController {
 								System.out.println("Something has gone terribly wrong in NextRoundController when trying to switch on winningCard");
 								break;
 		}
-		cardcombos[(deck.getRoundnum()-1)] = new CardCombos(winningCard.getcardID(), Integer.parseInt(bcPKey));
+/*	REMOVE v1.0 */				System.out.println("DEBUG! EndOfRoundController. Is (deck.getRoundnum()-1) the problem? " + (deck.getRoundnum()-1));
 		mv.addObject("blackcard", blackcardforround);
-		System.out.println("DEBUG! In EndofRoundController. blackcardforround = " + blackcardforround.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. blackcardforround = " + blackcardforround.toString());
 		mv.addObject("winningCard", winningCard);
-		System.out.println("DEBUG! In EndofRoundController. junkpile start = " + junkrange + "winningCard = " + winningCard.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. junkpile start = " + junkrange + "winningCard = " + winningCard.toString());
 		mv.addObject("endOfRound", deck.getRoundnum());
 		deck.setRoundnum();
-		System.out.println("DEBUG! In EndofRoundController. roundnum = " + deck.getRoundnum());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. roundnum = " + deck.getRoundnum());
 		
-		GameResults gameResults = new GameResults();
-		gameResults.setLocalPlayer1Score(players.getPoints(0));
+		
+		gameResults.setLocalPlayer1Score(players.getPoints(0));						//	set points for players
 		gameResults.setBlinkyScore(players.getPoints(1));
 		gameResults.setPinkyScore(players.getPoints(2));
 		gameResults.setInkyScore(players.getPoints(3));
 		gameResults.setClydeScore(players.getPoints(4));
 		
-		session.setAttribute("gameResults", gameResults);
+		CardCombos winningcomboforround = new CardCombos(bcPKey, ("" + winningCard.getcardID()));		//	temp holder of card combo
 		
+		if(refcc.contains(winningcomboforround)) {									//	if card combo is in refcc, increase count 
+			refcc.get(refcc.indexOf(winningcomboforround)).setCount();
+		}
+		else {
+			refcc.add(winningcomboforround);										//	if new card combo, add to refcc
+		}
 		return mv;
 	}
 	

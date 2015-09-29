@@ -1,5 +1,7 @@
 package com.rationalresolution.dah.spring;
 
+import java.util.ArrayList;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,41 +20,28 @@ import com.rationalresolution.dah.mech.*;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-//	@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
-@RequestMapping("/SelectWinner")
+@RequestMapping("/SelectWinner")																	//	picks up form action SelectWinner.html from choosecard.jsp
 public class SelectWinnerController {
 	
-/*	@ModelAttribute("playersChoices")
-	public WhiteCard[] bringPlayersChoices() {
-		System.out.println("inSelectWinnerController.bringPlayersChoices");
-		return new WhiteCard[5];
-	}*/
-
 	@RequestMapping(method=RequestMethod.POST)	
-	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") int bcPKey, 
-										   @RequestParam("playerchoice") String playerchoice, 
+	public ModelAndView onSubmitFromChoose(@RequestParam("blackcardID") int bcPKey, 				//	blackcardID comes as string from choosecard.jsp
+										   @RequestParam("playerchoice") String playerchoice, 		//	playerchoice is card# from choosecard.jsp
 										   HttpSession session) {
-/*	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
-											@ModelAttribute("junkpile") JunkPile junkpile,
-											@ModelAttribute("players") Players players,
-											@ModelAttribute("roundnum") int roundnum,
-											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
-											@RequestParam("blackcardID") int bcPKey,
-											@RequestParam("playerchoice") String playerchoice) {*/
-		ModelAndView mv = new ModelAndView("selectwinner");
+		ModelAndView mv = new ModelAndView("selectwinner");											//	send to selectwinner.jsp
 		
-		WhiteCard[] playersChoices = new WhiteCard[5];
-		Players players 	= (Players) 	session.getAttribute("players");
-		JunkPile junkpile	= (JunkPile)	session.getAttribute("junkpile");
-		BlackCard blackcardforround = bringBlackCard(bcPKey);
+		WhiteCard[] playersChoices = new WhiteCard[5];												//	temp array to capture 5 selected cards from LocalPlayer and Ghosts
+		Players players 	= (Players) 	session.getAttribute("players");						//	gets players from session
+		JunkPile junkpile	= (JunkPile)	session.getAttribute("junkpile");						//	gets junkpile from session
+		ArrayList<CardCombos> refcc	= (ArrayList<CardCombos>)	session.getAttribute("refcc");		//	gets refcc from session
+		BlackCard blackcardforround = bringBlackCard(bcPKey);										//	method call uses String of blackcardID to get blackcard from DB (consider change to avoid DB call)
 		
-		System.out.println("DEBUG! In SelectWinnerController.java\n");
-		System.out.println("DEBUG! SelectWinnerController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! In SelectWinnerController.java\n");
+/*	REMOVE v1.0 */				System.out.println("DEBUG! SelectWinnerController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
 		
-		WhiteCard playerwc;
-		int playerwcArraySpot = 0;
+		WhiteCard playerwc;																			//	set temp WhiteCard to capture playerchoice
+		int playerwcArraySpot = 0;																	//	set temp int to capture array spot for players hand
 		switch(playerchoice) {
-			case "card0":	playerwc = players.getLocalPlayer().getHand()[0];
+			case "card0":	playerwc = players.getLocalPlayer().getHand()[0];						//	getHand returns card and removes from players hand
 							playerwcArraySpot = 0;
 							break;
 			case "card1":	playerwc = players.getLocalPlayer().getHand()[1];
@@ -77,22 +66,22 @@ public class SelectWinnerController {
 							playerwc = new WhiteCard();
 							break;
 		}
-		System.out.println("DEBUG! SelectWinnerController (after switch on playerchoice)\t" + playerwc.toString());
+/*	REMOVE v1.0 */				System.out.println("DEBUG! SelectWinnerController (after switch on playerchoice)\t" + playerwc.toString());
 		
-		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);
-		for (int i = 1; i < playersChoices.length; i++) {
-			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());
+		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);					//	set LocalPlayer card in temp array
+		for (int i = 1; i < playersChoices.length; i++) {											//	loops through ghosts (1-4)
+			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());	//	ghosts decideCard uses refcc and random to decide card, removes card from ghost's hand
 		}
-		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +
-							players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
-							players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1] + "\n" +
-							players.getPlayers()[2].getUsername() + ":\t" + playersChoices[2] + "\n" +
-							players.getPlayers()[3].getUsername() + ":\t" + playersChoices[3] + "\n" +
-							players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n" +
-							junkpile.toString());
+/*	REMOVE v1.0 */		 		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +
+									players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
+									players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1] + "\n" +
+									players.getPlayers()[2].getUsername() + ":\t" + playersChoices[2] + "\n" +
+									players.getPlayers()[3].getUsername() + ":\t" + playersChoices[3] + "\n" +
+									players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n" +
+									junkpile.toString());
 		
-		mv.addObject("blackcard", blackcardforround);
-		session.setAttribute("playersChoices", playersChoices);
+		mv.addObject("blackcard", blackcardforround);												//	blackcard sent to selectwinner.jsp as object
+		session.setAttribute("playersChoices", playersChoices);										//	playersChoices set as sessionattribute
 		return mv;
 	}
 	

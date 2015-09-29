@@ -24,7 +24,6 @@ public class JunkPile {
 	public static ArrayList<WhiteCard> getJunkPile()	{ return junkPile;			}
 	public static WhiteCard getJunkPile(int i)			{ return junkPile.get(i);	}
 	public static void setJunkPile(WhiteCard wc) {
-		wc.setPlayed();
 		junkPile.add(arraySpot++, wc);
 	}
 	

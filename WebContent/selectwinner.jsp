@@ -8,19 +8,19 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>
+		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>						<!-- 	set round num -->
 		
 		<h2>Select the best card for this round.</h2>
 		
-		BLACK CARD: <c:out value="${blackcard.toString()}" />
+		BLACK CARD: <c:out value="${blackcard.toString()}" />						<!--	display blackcard -->
 		
-		<form action="EndOfRound.html" method="POST" >
+		<form action="EndOfRound.html" method="POST" >								<!-- 	form action sends to EndOfRoundController.java -->
 		
-		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />
+		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />	<!-- 	sends blackcardID as string to EndOfRoundController.java -->
 		
 		
-		<table border="1" class="left">
-			<tr> <td> <input type="radio" name="roundwinner" value="localPlayer">	Hi!<c:out value="${playersChoices[0].toString()}" /> </td>
+		<table border="1" class="left">												<!-- 	displays cards decided by players and ghosts, returns roundwinner on submit -->
+			<tr> <td> <input type="radio" name="roundwinner" value="localPlayer">	<c:out value="${playersChoices[0].toString()}" /> </td>
 				 <td> <input type="radio" name="roundwinner" value="Blinky"> 		<c:out value="${playersChoices[1].toString()}" /> </td> </tr>
 			<tr> <td> <input type="radio" name="roundwinner" value="Pinky"> 		<c:out value="${playersChoices[2].toString()}" /> </td>	
 				 <td> <input type="radio" name="roundwinner" value="Inky"> 			<c:out value="${playersChoices[3].toString()}" /> </td> </tr>

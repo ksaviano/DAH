@@ -5,7 +5,7 @@ import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.Map;;
 
-
+@Entity
 @Table(name = "GameResults")
 public class GameResults {
 	//	Fields
@@ -33,13 +33,10 @@ public class GameResults {
 	@Column(name = "grClydeScore")
 	private int clydeScore  						= 0;
 	
-	@Column(name = "grTimeStamp")
-	@Temporal(TemporalType.TIMESTAMP)
-	private Timestamp timestamp;
+//	@Column(name = "grTimeStamp")
+//	@Temporal(TemporalType.TIMESTAMP)
+//	private Timestamp timestamp;
 	
-	@Transient
-	private Map<String, Integer> gameCombos			= new HashMap<>(); 
-
 	//	Constructor
 	public GameResults() {
 		// set gameID to new PKey value
@@ -53,8 +50,7 @@ public class GameResults {
 	public int getPinkyScore()			{ return pinkyScore;		}
 	public int getInkyScore()			{ return inkyScore;			}
 	public int getClydeScore()			{ return clydeScore;		}
-	public Map getGameCombos()			{ return gameCombos;		}
-	public Timestamp getTimestamp()		{ return timestamp;			}
+//	public Timestamp getTimestamp()		{ return timestamp;			}
 	
 	public void setLocalPlayerID(int i)			{ localPlayerID = i;			}
 	public void setLocalPlayer1Score(int s)		{ localPlayer1Score = s;		}
@@ -62,16 +58,12 @@ public class GameResults {
 	public void setPinkyScore(int s)			{ pinkyScore = s;				}
 	public void setInkyScore(int s)				{ inkyScore = s;				}
 	public void setClydeScore(int s)			{ clydeScore = s;				}
-	public void setTimestamp()					{ timestamp.getTime();			}
-	public void setGameCombos(String id, Integer n) {
-		if(gameCombos.containsKey(id)) {
-			gameCombos.put(id, (gameCombos.get(id) + 1));
-		}
-		else {
-			gameCombos.put(id, 1);	
-		}
-	}
+//	public void setTimestamp()					{ timestamp = new Timestamp(new java.util.Date().getTime());			}
+	
 	
 	//	Methods
+	public String toString() {
+		return "Game Results:\tPlayer:\t" + getLocalPlayer1Score() + "\tBlinky:\t" + getBlinkyScore() + "\tPinky:\t" + getPinkyScore() + "\tInky:\t" + getInkyScore() + "\tClyde:\t" + getClydeScore();
+	}
 	
 }

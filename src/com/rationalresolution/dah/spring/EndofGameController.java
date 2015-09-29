@@ -1,5 +1,9 @@
 package com.rationalresolution.dah.spring;
 
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedHashSet;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
@@ -18,87 +22,114 @@ import com.rationalresolution.dah.mech.*;
 import com.rationalresolution.dah.players.*;
 
 @Controller
-//	@SessionAttributes(value={"deck", "junkpile", "players", "roundnum", "playersChoices" })
 @RequestMapping("/EndOfGame")
 public class EndofGameController {
 	public EntityManagerFactory emf;
 	public EntityManager em;
 	
-/*	@ModelAttribute("playersChoices")
-	public WhiteCard[] bringPlayersChoices() {
-		System.out.println("inSelectWinnerController.bringPlayersChoices");
-		return new WhiteCard[5];
-	}*/
-
 	@RequestMapping(method=RequestMethod.POST)	
 	public ModelAndView onSubmitFromChoose(HttpSession session) {
-/*	public ModelAndView onSubmitFromChoose(	@ModelAttribute("deck") GameDeck deck,
-											@ModelAttribute("junkpile") JunkPile junkpile,
-											@ModelAttribute("players") Players players,
-											@ModelAttribute("roundnum") int roundnum,
-											@ModelAttribute("playersChoices") WhiteCard[] playersChoices,
-											@RequestParam("blackcardID") int bcPKey,
-											@RequestParam("playerchoice") String playerchoice) {*/
 		
-		GameDeck deck				= (GameDeck)		session.getAttribute("deck");
-		JunkPile junkpile			= (JunkPile)		session.getAttribute("junkpile");
-		Players players				= (Players)			session.getAttribute("players");
-		CardCombos[] cardCombos		= (CardCombos[])	session.getAttribute("cardcombos");
-		GameResults gameResults		= (GameResults) 	session.getAttribute("gameResults");
+		GameDeck deck				= (GameDeck)				session.getAttribute("deck");		//	get deck from session
+		JunkPile junkpile			= (JunkPile)				session.getAttribute("junkpile");	//	get junkpile from session
+		Players players				= (Players)					session.getAttribute("players");	//	get players from session
+		ArrayList<CardCombos> refcc = (ArrayList<CardCombos>)	session.getAttribute("refcc");		//	get refcc from session
+		GameResults gameResults		= (GameResults) 			session.getAttribute("gameResults");//	get ganeResults from session
 		
 		
-		System.out.println("In EndOfGameController. Kill session. quit.");
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. Kill session. quit.");
+		for(int i = 1; i < players.getPlayers().length; i++) {				//	discard remaining ghost cards from hand to junkpile
+			for(int j = 0; j < 7; j++) {
+				if(players.getGhostPlayer(i).getHand()[j] != null) {
+					players.getGhostPlayer(i).discard(j);
+				}
+			}
+		}
+		for(int j = 0; j < 7; j++) {										//	discard remaining localPlayer cards from hand to junkpile
+			if(players.getLocalPlayer().getHand() != null) {
+				players.getLocalPlayer().discard(j);
+			}
+		}
 		
+/*	REMOVE v1.0 */	System.out.println("discarded cards from all player hands, junkpile currently at: " + junkpile.getJunkPile().size());
+		LinkedHashSet<WhiteCard> whitedeck = deck.getWhitedeck();			//	discard remaining cards from hand
+		Iterator<WhiteCard> wi = whitedeck.iterator();
+		while(wi.hasNext()) {
+			WhiteCard temp = wi.next();
+			if(temp != null) {
+				junkpile.setJunkPile(temp);
+				wi.remove();
+			}
+		}
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. After for each, whitedeck size = " + deck.getWhitedeck().size());		
+/*		int wcsize = deck.getWhitedeck().size();
+		for(int k = 0; k < wcsize; k++) {
+			junkpile.setJunkPile(deck.getWhiteCard());
+		}*/
 		
-		try {
+		if(deck.getWhitedeck().size() != 0) {							//	Make sure that whitedeck has been discarded to junkpile
+			// not all cards went to junkpile
+/*	REMOVE v1.0 */						System.out.println("DEBUG! EndofGameController: not all cards from whitedeck were discarded to junkpile! Size is: " + deck.getWhitedeck().size());
+/*	REMOVE v1.0 */						System.out.println("EXITING SYSTEM!");
+			System.exit(0);
+		}
+		if(junkpile.getJunkPile().size() != deck.WCCOUNT+1) {				//	Make sure that junkpile has all of the whitecards
+/*	REMOVE v1.0 */						System.out.println("DEBUG! EndofGameController: not all cards are in the junkpile! Junkpile size is: " + junkpile.getJunkPile().size() + " should be " + deck.WCCOUNT);
+/*	REMOVE v1.0 */						System.out.println("EXITING SYSTEM!");
+			System.exit(0);
+		}
+		
+//		try {
 			emf = Persistence.createEntityManagerFactory("DAH");
 			em = emf.createEntityManager();
-			if(deck.getWhitedeck().size() != 0) {							//	Make sure that whitedeck has been discarded to junkpile
-				// not all cards went to junkpile
-				System.out.println("DEBUG! EndofGameController: not all cards from whitedeck were discarded to junkpile!");
-				System.out.println("EXITING SYSTEM!");
-				System.exit(0);
-			}
-			if(junkpile.getJunkPile().size() != deck.WCCOUNT) {				//	Make sure that junkpile has all of the whitecards
-				System.out.println("DEBUG! EndofGameController: not all cards are in the junkpile!");
-				System.out.println("EXITING SYSTEM!");
-				System.exit(0);
-			}
-			if(cardCombos.length != deck.BCCOUNT) {							//	Make sure that cardCombos has all winning combos (i.e., 1 for each blcakcard)
-				System.out.println("DEBUG! EndofGameController: not all cards are in the CardCombos!");
-				System.out.println("EXITING SYSTEM!");
-				System.exit(0);
+			
+			Iterator<WhiteCard> jp = junkpile.getJunkPile().iterator();
+			int y = 0;
+			while(jp.hasNext()) {
+/*	REMOVE v1.0 */						System.out.println("DEBUG! Committing junkpile transactions: " + y);
+				WhiteCard temp = jp.next();
+				if(temp != null) {
+					em.getTransaction().begin();
+					em.merge(temp);
+					em.getTransaction().commit();
+					jp.remove();
+					y++;
+				}
 			}
 			
-			for(int i = 0; i < junkpile.getJunkPile().size(); i++) {		//	Commit all changes to whitecards back to DB		
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. commited junkpile " + junkpile.getJunkPile().size());
+
+			Iterator<CardCombos> cc = refcc.iterator();
+			int x = 0;
+			while(cc.hasNext()) {
+/*	REMOVE v1.0 */						System.out.println("DEBUG! Committing refcc transactions");
 				em.getTransaction().begin();
-				em.merge(junkpile.getJunkPile(i));
+/*	REMOVE v1.0 */						System.out.println("DEBUG! Committing refcc transactions after commit");
+				em.merge(cc.next());
 				em.getTransaction().commit();
-				em.close();
+				cc.remove();
+				x++;
 			}
-			
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. commited refcc " + refcc.size());	
+
 			em.getTransaction().begin();
 			em.merge(players.getLocalPlayer());								//	Commit all changes to LocalPlayer back to DB
 			em.getTransaction().commit();
-			em.close();
-			
-						
-			for(int i = 0; i < cardCombos.length; i++) {					//	Commit all changes/add new combos to DB
-				em.getTransaction().begin();
-				em.merge(cardCombos[i]);
-				em.getTransaction().commit();
-				em.close();
-			}
-			
+//			em.close();
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. commited LocalPlayer " + players.getLocalPlayer().toString());
+
+/*			gameResults.setTimestamp();
 			em.getTransaction().begin();									//	Create new gameResults to DB
-			em.merge(gameResults);
+	REMOVE v1.0 						System.out.println("In EndOfGameController. commited GameResults " + gameResults.toString());
+			em.persist(gameResults);
 			em.getTransaction().commit();
 			em.close();
-			emf.close();
-		}
-		catch(Exception e) {
-			System.out.println("EndofGameController exception: " + e);
-		}
+			emf.close();*/
+/*	REMOVE v1.0 */						System.out.println("In EndOfGameController. committed GameResults " + gameResults.toString());
+//		}
+//		catch(Exception e) {
+//			System.out.println("EndofGameController exception: " + e);
+//		}
 		
 		session.invalidate();
 		return new ModelAndView("index");

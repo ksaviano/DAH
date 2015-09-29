@@ -8,16 +8,16 @@
 	</head>
 
 	<body>
-		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>
+		<h1>ROUND <c:out value="${deck.getRoundnum()}" /></h1>							<!--	Set Roundnum -->
 		
 		<h2>Select a card from your hand to play this round.</h2>
 		
-		BLACK CARD: <c:out value="${blackcard.toString()}" /><br/>
+		BLACK CARD: <c:out value="${blackcard.toString()}" /><br/>						<!--	pulls blackcard object from model -->
 		
-		<form action="SelectWinner.html" method="POST" >
+		<form action="SelectWinner.html" method="POST" >								<!--	sends to SelectWinnerController.java -->
 		
-		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />
-		<table border="1" class="left">
+		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />		<!--	passes String blackcardID from current blackcard as @RequestParam -->
+		<table border="1" class="left">													<!-- 	playerschoice will send card# as @RequestParam for SelectWinnerController -->
 			<tr> <td> <input type="radio" name="playerchoice" value="card0"> <c:out value="${card0.toString()}" /> </td>
 				 <td> <input type="radio" name="playerchoice" value="card1"> <c:out value="${card1.toString()}"/> </td> </tr>
 			<tr> <td> <input type="radio" name="playerchoice" value="card2"> <c:out value="${card2.toString()}" /> </td>	
