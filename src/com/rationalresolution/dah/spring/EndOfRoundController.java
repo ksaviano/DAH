@@ -42,7 +42,7 @@ public class EndOfRoundController {
 		BlackCard blackcardforround = bringBlackCard(Integer.parseInt(bcPKey));				//	uses method to get blackcard from DB
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController (after bringBlackKey(bcKey))\t" + blackcardforround.toString());
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. Round #" + deck.getRoundnum() + "(roundnum*5)-5 = " + ((deck.getRoundnum() * 5) -5));
-/*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. Is anything in junkpile?\n" + junkpile.toString());
+/*	REMOVE v1.0 				System.out.println("DEBUG! In EndofRoundController. Is anything in junkpile?\n" + junkpile.toString()); */
 
 		WhiteCard winningCard;
 		int junkrange = ((deck.getRoundnum() * 5)-5);										//	junkpile should get 5 cards per round so 1st set 0-5, 2nd 6-10, etc.

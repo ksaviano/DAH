@@ -15,7 +15,7 @@ public class GameResults {
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private int grPKey;
 	
-	@Transient
+	@Column(name = "grlpFKey")
 	private int localPlayerID;
 	
 	@Column(name = "grLocalPlayer1Score")

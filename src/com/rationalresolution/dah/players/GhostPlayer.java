@@ -1,5 +1,10 @@
 package com.rationalresolution.dah.players;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
+import javax.servlet.http.HttpSession;
+
 import com.rationalresolution.dah.cards.*;
 import com.rationalresolution.dah.mech.JunkPile;
 
@@ -32,10 +37,39 @@ public class GhostPlayer implements Player {
 	
 	//	Methods
 
-	public int decideCard() {					//	ROUND OF PLAY STEP 2
-		//	decide which card in hand is best... for now, choose one at random		
-		int x = (int) (Math.random() * 7);
-		return x;
+	public int decideCard(int bc, HttpSession session) {					//	ROUND OF PLAY STEP 2
+		ArrayList<CardCombos> refcc = (ArrayList<CardCombos>) session.getAttribute("refcc");
+		
+		int[] decider = new int[hand.length];
+		int decidertotal = 0;
+		for(int i = 0; i < decider.length; i++) {
+			decider[i] = (int) (Math.random()*10);
+			if(i > 0) {
+				decidertotal = decider[i-1] + decider[i];
+				decider[i] += decider[i-1];
+				System.out.println(this.toString() + " decider[" + i + "] = " + decider[i] + " decider [" + (i-1) + "] = " + decider[i-1]);
+			}
+		}
+		for(int i = 0; i < hand.length; i++) {
+			CardCombos temp = new CardCombos(("" + hand[i].getcardID()), ("" + bc));
+			if(refcc.contains(temp)) {
+				System.out.println("This combination has won before! " );
+				return i;
+			}
+			if(hand[i].getDealt() != 0) {
+				decider[i] += ((hand[i].getPlayed() / hand[i].getDealt()) * 10);
+			}
+		}
+		
+		
+		int x = (int) (Math.random() * decidertotal);
+		for(int i = 0; i  < decider.length; i++) {
+			if(decider[i] > x ) { 
+				System.out.println("Random: " + x + " decider value: " + decider[i] + " array spot " + i);
+				return i; 
+			}
+		}
+		return 0;
 	}
 
 	public WhiteCard playCard(int x) {			//	ROUND OF PLAY STEP 3

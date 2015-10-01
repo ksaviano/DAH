@@ -7,6 +7,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.persistence.Transient;
+import javax.servlet.http.HttpSession;
 
 import com.rationalresolution.dah.cards.WhiteCard;
 import com.rationalresolution.dah.mech.JunkPile;
@@ -83,7 +84,7 @@ public class LocalPlayer implements Player {
 	
 	
 	//	Methods
-	public int decideCard() {						//	ROUND OF PLAY STEP 2
+	public int decideCard(int bc, HttpSession session) {						//	ROUND OF PLAY STEP 2
 		//	not used for localPlayer- here so Player Interface can have method so players.decideCard() can work for ghosts
 		int x = 0;									// this will be returned from ChooseCard.jsp
 		return x;

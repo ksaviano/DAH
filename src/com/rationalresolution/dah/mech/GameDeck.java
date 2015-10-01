@@ -29,7 +29,7 @@ public class GameDeck {
 	
 	private LinkedHashSet<WhiteCard> whitedeck = new LinkedHashSet(WCCOUNT); 
 	private LinkedHashSet<BlackCard> blackdeck = new LinkedHashSet(BCCOUNT);
-	private ArrayList<CardCombos> refcombos	   = new ArrayList<>();
+	private ArrayList<CardCombos> refcc	   	   = new ArrayList<>();
 	private int roundnum = 1;					
 	
 	//	Constructor
@@ -112,12 +112,12 @@ public class GameDeck {
 				List<CardCombos> elementlist = query.getResultList();
 /*	REMOVE v1.0 */			System.out.println("DEBUG! Return from DB with " + elementlist.toString());
 				if(!elementlist.isEmpty()) {
-					refcombos.add(elementlist.get(0));
+					refcc.add(elementlist.get(0));
 				}
 			}
 		}
 	}
-	public ArrayList<CardCombos> getRefcombos()		{ return refcombos;	}
+	public ArrayList<CardCombos> getRefcombos()		{ return refcc;	}
 	
 	//	Methods
 	private WhiteCard randoWCPicks() {

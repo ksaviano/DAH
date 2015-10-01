@@ -36,6 +36,7 @@ public class StartGameController {
 		
 		players.setLocalPlayer(pl);												//	adds the localPlayer to players (can remove localPlayer from session?)
 		DealCards.dealStart(players, deck, junkpile);							//	pulls 7 white cards out of whitedeck for each player (7 * 5 = 35), sets dealt increase on cards
+		gameResults.setLocalPlayerID(pl.getPlayerID());							//	add LocalPlayer key to GameResults
 		
 		WhiteCard[] currentHand = players.getLocalPlayer().getHand();			//	Array has current cards of LocalPlayer
 		mv.addObject("card0", currentHand[0]);									//	This information does not need to persist, so add as object (0-6)

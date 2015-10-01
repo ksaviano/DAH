@@ -21,6 +21,7 @@ public class JunkPile {
 	}
 	
 	//	Accessor Methods
+	public static void resetArraySpot() 				{ arraySpot = 0;	}
 	public static ArrayList<WhiteCard> getJunkPile()	{ return junkPile;			}
 	public static WhiteCard getJunkPile(int i)			{ return junkPile.get(i);	}
 	public static void setJunkPile(WhiteCard wc) {

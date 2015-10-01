@@ -79,6 +79,8 @@ public class EndofGameController {
 			System.exit(0);
 		}
 		
+		
+		
 //		try {
 			emf = Persistence.createEntityManagerFactory("DAH");
 			em = emf.createEntityManager();
@@ -96,6 +98,15 @@ public class EndofGameController {
 					y++;
 				}
 			}
+			
+			if(players.getPoints(0) > players.getPoints(1) && 
+			   players.getPoints(0) > players.getPoints(2) && 
+			   players.getPoints(0) > players.getPoints(3) && 
+			   players.getPoints(0) > players.getPoints(4)) {
+				players.getLocalPlayer().setHandsWon();
+				players.getLocalPlayer().setHorriblePoints(50);
+			}
+			players.getLocalPlayer().setGamesPlayed();
 			
 /*	REMOVE v1.0 */						System.out.println("In EndOfGameController. commited junkpile " + junkpile.getJunkPile().size());
 
@@ -115,22 +126,26 @@ public class EndofGameController {
 			em.getTransaction().begin();
 			em.merge(players.getLocalPlayer());								//	Commit all changes to LocalPlayer back to DB
 			em.getTransaction().commit();
-//			em.close();
 /*	REMOVE v1.0 */						System.out.println("In EndOfGameController. commited LocalPlayer " + players.getLocalPlayer().toString());
-
-/*			gameResults.setTimestamp();
 			em.getTransaction().begin();									//	Create new gameResults to DB
-	REMOVE v1.0 						System.out.println("In EndOfGameController. commited GameResults " + gameResults.toString());
+/*	REMOVE v1.0 */ 						System.out.println("In EndOfGameController. commited GameResults " + gameResults.toString());
 			em.persist(gameResults);
 			em.getTransaction().commit();
 			em.close();
-			emf.close();*/
+			emf.close();
 /*	REMOVE v1.0 */						System.out.println("In EndOfGameController. committed GameResults " + gameResults.toString());
 //		}
 //		catch(Exception e) {
 //			System.out.println("EndofGameController exception: " + e);
 //		}
-		
+		JunkPile.resetArraySpot();
+		session.removeAttribute("deck");
+		session.removeAttribute("junkpile");
+		session.removeAttribute("players");
+		session.removeAttribute("refcc");
+		session.removeAttribute("gameResults");
+		session.removeAttribute("localPlayer");
+		session.setMaxInactiveInterval(1);
 		session.invalidate();
 		return new ModelAndView("index");
 	}

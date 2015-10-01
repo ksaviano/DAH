@@ -70,15 +70,15 @@ public class SelectWinnerController {
 		
 		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);					//	set LocalPlayer card in temp array
 		for (int i = 1; i < playersChoices.length; i++) {											//	loops through ghosts (1-4)
-			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard());	//	ghosts decideCard uses refcc and random to decide card, removes card from ghost's hand
+			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard(bcPKey, session));	//	ghosts decideCard uses refcc and random to decide card, removes card from ghost's hand
 		}
 /*	REMOVE v1.0 */		 		System.out.println("DEBUG! Select Winner Controller.\nFirst 2 array spots of playersChoices (following decide card for Ghosts)\n" +
 									players.getPlayers()[0].getUsername() + ":\t" + playersChoices[0] + "\n" +
 									players.getPlayers()[1].getUsername() + ":\t" + playersChoices[1] + "\n" +
 									players.getPlayers()[2].getUsername() + ":\t" + playersChoices[2] + "\n" +
 									players.getPlayers()[3].getUsername() + ":\t" + playersChoices[3] + "\n" +
-									players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n" +
-									junkpile.toString());
+									players.getPlayers()[4].getUsername() + ":\t" + playersChoices[4] + "\n"
+									);
 		
 		mv.addObject("blackcard", blackcardforround);												//	blackcard sent to selectwinner.jsp as object
 		session.setAttribute("playersChoices", playersChoices);										//	playersChoices set as sessionattribute
