@@ -108,3 +108,21 @@ body {
 		a:selected {
 			border: 3px solid gold;
 		}
+		
+		.left {
+			float: left;
+			margin-left: 25px;
+			margin-right: 20px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+		}
+		
+		.right {
+			float: left;
+			text-align: center;
+			margin-left: 25px;
+			margin-right: 20px;
+			margin-top: 10px;
+			margin-bottom: 10px;
+			float: clear;
+		}

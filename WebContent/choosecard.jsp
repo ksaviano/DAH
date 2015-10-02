@@ -9,17 +9,14 @@
 		
 		<script>
 			function submitthecard(form) {
-				alert(form.playerchoice.value);
-				
+		
 			}
 			
 			function setcard(card) {
-				alert(card.id);
 				var form1 = document.forms["choosecardform"];
-				alert(form1.id);
 				form1.playerchoice.value = card.id;
-				alert(form1.playerchoice.value);
 			}
+			
 		</script>
 		
 		<style>
@@ -35,8 +32,7 @@
 		<h2 class="instructions">Select a card from "your hand" to play this round.</h2>
 
 		<form action="SelectWinner.html" id="choosecardform" method="POST" onsubmit="submitthecard(this)">
-		<input type="radio" name="choosecard" value="wc1">
-		<input type="text" name="playerchoice"/>
+		<input type="hidden" name="playerchoice"/>
 		
 		<div id="blackcardstock">
 			<div class="bc">
