@@ -74,6 +74,7 @@ public class EndOfRoundController {
 		mv.addObject("winningCard", winningCard);
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. junkpile start = " + junkrange + "winningCard = " + winningCard.toString());
 		mv.addObject("endOfRound", deck.getRoundnum());
+		//	Add logic to add avatar source file to addObject.
 		deck.setRoundnum();
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. roundnum = " + deck.getRoundnum());
 		

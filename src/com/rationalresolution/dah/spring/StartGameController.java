@@ -7,6 +7,7 @@ import javax.servlet.http.HttpSession;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rationalresolution.dah.cards.CardCombos;
@@ -23,8 +24,9 @@ import com.rationalresolution.dah.players.Players;
 public class StartGameController {
 	
 	@RequestMapping(method=RequestMethod.POST)
-	public ModelAndView onStartOfGame(HttpSession session) {
-		ModelAndView mv = new ModelAndView("choosecard");						//	send to choosecard.jsp						
+	public ModelAndView onStartOfGame(@RequestParam("roundsel") String rounds, HttpSession session) {
+		ModelAndView mv = new ModelAndView("choosecard");						//	send to choosecard.jsp
+		GameDeck.setTotalRounds(Integer.parseInt(rounds));
 		LocalPlayer pl = (LocalPlayer) session.getAttribute("localPlayer");		//	pulls localPlayer from session (to be put into players class with ghosts)
 		
 		GameDeck deck 				= new GameDeck();							//	creation of a new deck sets a LOT into motion

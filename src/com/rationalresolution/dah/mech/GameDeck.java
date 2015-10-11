@@ -18,9 +18,9 @@ import com.rationalresolution.dah.cards.WhiteCard;
 
 public class GameDeck {
 	//	Fields
-	private static int totalRounds = 3;												//	set this number to total number of rounds (usually 10)
-	public static final int WCCOUNT = (((totalRounds+1) * 5) + (7 * 5));			//	5 players (4 ghosts + 1 real) with init 7 + 11 draws = 90
-	public static final int BCCOUNT = (totalRounds+1);								//	10 rounds in standard game
+	private static int totalRounds = 0;												//	set this number to total number of rounds (usually 10)
+	public static int WCCOUNT = 0;			//	5 players (4 ghosts + 1 real) with init 7 + 11 draws = 90
+	public static int BCCOUNT = 0;								//	10 rounds in standard game
 	
 	
 	public EntityManagerFactory emf;
@@ -37,10 +37,13 @@ public class GameDeck {
 		try {
 			emf = Persistence.createEntityManagerFactory("DAH");
 			em = emf.createEntityManager();
-
+			
+			WCCOUNT = (((totalRounds+1) * 5) + (7 * 5));
+			BCCOUNT = (totalRounds+1);	
 			System.out.println("In Game Deck Constructor");
 			WhiteCard tempWC;
 			int i = 0;
+			System.out.println("GameDeck Construtor: totalRounds = " + totalRounds + "\tWCCOUNT = " + WCCOUNT + "\tcBCCOUNT = " + BCCOUNT);
 			while(i < WCCOUNT) {
 				tempWC = randoWCPicks();
 				System.out.print(i + " " + tempWC + "\t");
@@ -70,6 +73,7 @@ public class GameDeck {
 	//	Accessor Methods
 	public int getRoundnum() 						{ return roundnum;		}
 	public void setRoundnum()						{ roundnum++;			}
+	public static void setTotalRounds(int r)		{ totalRounds = r;		}
 	public static int getTotalRounds()				{ return totalRounds;	}
 	public LinkedHashSet<WhiteCard> getWhitedeck()	{ return whitedeck;		}
 	public WhiteCard getWhiteCard() {

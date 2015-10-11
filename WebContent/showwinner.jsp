@@ -33,6 +33,12 @@
 				<c:out value="${winningCard.toString()}" />
 			</div>
 		</div>
+		
+		<div>
+			<div>
+				<!--  add avatar image (from EndOfRoundController.java) -->
+			</div>
+		</div>
 
 		<input type="submit" value="PLAY NEXT ROUND!" /> 
 

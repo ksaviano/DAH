@@ -40,6 +40,7 @@ body {
 		
 		#blackcardstock {
 			float: left;
+			clear: left;
 			font-size: 1.5em;
 			font-weight: 500;
 			background: black;
@@ -72,11 +73,6 @@ body {
 			transform: translateZ(-150px) rotateX(-20deg) rotateY(-30deg);
 		}
 		
-		.cardstock:active {
-			border: 3px solid gold;
-			background-color: ivory;
-		}
-		
 		
 		#roundnum {
 			float: left;
@@ -89,11 +85,14 @@ body {
 			border: 2px solid red;
 			box-shadow: 10px 10px 15px Pink;
 			transition-duration: 2s;
-			transform: rotate(25deg);
+			margin-right: 30px;
+			margin-bottom: 10px;
+			transform: rotate(20deg);
 		}
 		
 		#roundnum:hover {
-			transform: rotate(-25deg);
+		transition-duration: 10s;
+			transform: rotate(-325deg);
 		}
 		
 		.roundlabel {
@@ -102,7 +101,11 @@ body {
 		}
 		
 		.instructions {
-			float: clear;
+			margin-top: 20px;
+			margin-bottom: 20px;
+			margin-left: 15px;
+			margin-right: 100px;
+			float: left;
 		}
 		
 		a:selected {
@@ -125,4 +128,23 @@ body {
 			margin-top: 10px;
 			margin-bottom: 10px;
 			float: clear;
+		}
+		
+		.avatar {
+			float: left;
+			margin-top: -75px;
+			margin-left: 250px;
+			margin-right: 50px;
+		}
+		
+		#record {
+			font-size: 1.8em;
+			font-decoration: bold;
+			float: left;
+		}
+		
+		.submitbtn {
+			float: left;
+			height: 30px;
+			width: 30px;
 		}

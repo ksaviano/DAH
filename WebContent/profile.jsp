@@ -4,36 +4,49 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>profile</title>
-		<style>
-		body {
-				height: 700px;
-				background-image: url("images/rainbowbck.jpg");
-				background-size: cover;
-				background-repeat: no-repeat;
-				background-position: center;
+		<title>Player Profile</title>
+		<link rel="stylesheet" type="text/css" href="CSS/dahstyle.css">
+		
+		<script>
+		
+			var val = document.getElementById("roundselect");
+			
+			function updateTextInput(value) {
+				document.querySelector('#roundselect').value=value; 
 				
-				font-family: helvetica;
-				font-size: 1.5em;
 			}
+			function outputUpdate(vol) {
+				document.querySelector('#roundselect').value = vol;
+			}
+		</script>
+		
+		<style>
+		
 			
 		</style>
 	</head>
 
 	<body>
-		<h1>Profile.jsp</h1>
+		<h1>Player Profile</h1>
 		
-		Welcome ${localPlayer.getNickname()}
+		<h2 class = "instructions">Welcome, ${localPlayer.getNickname()}</h2>
+		<div class = "avatar"><img src="images/avatars/defaultavatar.png" alt="player avatar" height=140px width=128px;></div>
+		<br><br><br><br>
 		
 		<form action="StartGame.html" method="POST" >
-		<div id="record">Your record:<br/></div>
-			
-			<div>Games played:<c:out value="${localPlayer.getGamesPlayed()}" /> </div>   
-			<div>Hands won:		<c:out value="${localPlayer.getHandsWon()}" /></div>
-			<div>Horrible Points:<c:out value="${localPlayer.getHorriblePoints()}" /></div>
 		
-			
-			<input type="submit" value="PLAY!" />
+		<table>
+		<tr><td><div id="record">Your record:<br/></div></td></tr>
+		<tr><td><div>Games played:</div></td>			<td><div><c:out value="${localPlayer.getGamesPlayed()}" /></div></td></tr>   
+		<tr><td><div>Hands won:</div></td>				<td><div><c:out value="${localPlayer.getHandsWon()}" /></div>
+		<tr><td><div>Horrible Points:</div></td>		<td><div><c:out value="${localPlayer.getHorriblePoints()}" /></div>
+		</table>
+		
+		<div class="roundselector"><label for="roundsel">Rounds</label>
+		<input type="range" min="3" max="10" value="5" id="roundsel" name="roundsel" step="1" oninput="outputUpdate(value)">
+		<output for="roundsel" id="roundselect">5</output></div>
+		
+		<input type="submit" value="PLAY GAME!">
 		</form>
 	</body>
 </html>
