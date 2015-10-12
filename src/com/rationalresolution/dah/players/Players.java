@@ -5,6 +5,7 @@ import com.rationalresolution.dah.players.GhostPlayer.Ghosts;
 public class Players {
 	//	Fields
 	private Player[] players = new Player[5];
+	private String[] avatars = new String[5];
 	private int[] points = new int[5];
 	private static int round = 1;
 	
@@ -12,6 +13,7 @@ public class Players {
 	public Players() {
 		System.out.println("In players class constructor");
 		setGhostPlayers();
+		
 	}
 	
 	//	Accessor Methods
@@ -30,6 +32,12 @@ public class Players {
 											  players[3] = new GhostPlayer(Ghosts.INKY);
 											  players[4] = new GhostPlayer(Ghosts.CLYDE); }
 	public void setPoints(int x)			{ points[x] += 10;	}
+	public void setAvatars()				{ avatars[0] = getLocalPlayer().getAvatar();
+											  avatars[1] = "/DAH/images/avatars/Blinky.png";
+											  avatars[2] = "/DAH/images/avatars/Pinky.png";
+											  avatars[3] = "/DAH/images/avatars/Inky.png";
+											  avatars[4] = "/DAH/images/avatars/Clyde.png"; }
+	public String getAvatars(int x)			{ return avatars[x]; }
 	
 	
 	

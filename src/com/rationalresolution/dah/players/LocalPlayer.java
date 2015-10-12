@@ -32,7 +32,7 @@ public class LocalPlayer implements Player {
 	private String nickname				=	"asshat";
 	
 	@Column(name = "lpAvatar")
-	private String avatar				=	"/images/avatars/defaultavatar.jpg";
+	private String avatar				=	"/DAH/images/avatars/defaultavatar.png";
 	
 	@Column(name = "lpGamesPlayed")
 	private int gamesPlayed				=	0;
@@ -48,10 +48,12 @@ public class LocalPlayer implements Player {
 	
 	//	Constructor
 	public LocalPlayer() {
-
+		setNickname("Asshat");
+		setAvatar("/DAH/images/avatars/defaultavatar.png");
 	}
 	
 	public LocalPlayer(String u, String p) {
+		this();
 		setUsername(u);
 		setPassword(p);
 	}

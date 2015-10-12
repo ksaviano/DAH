@@ -45,36 +45,41 @@ public class EndOfRoundController {
 /*	REMOVE v1.0 				System.out.println("DEBUG! In EndofRoundController. Is anything in junkpile?\n" + junkpile.toString()); */
 
 		WhiteCard winningCard;
+		int winnernum;
+		String winavatar;
 		int junkrange = ((deck.getRoundnum() * 5)-5);										//	junkpile should get 5 cards per round so 1st set 0-5, 2nd 6-10, etc.
 		switch(roundwinner) {																//	switch on name of player who won
-			case "localPlayer":	winningCard = junkpile.getJunkPile(junkrange + 0);			//	gets card from junkpile (remains in junkpile)
-								players.setPoints(0);										//	set points (for use in EndOfGameController)
+			case "localPlayer":	winnernum = 0;
 								players.getLocalPlayer().setHandsWon();						//	player attribute HandsWon increased by 1
 								players.getLocalPlayer().setHorriblePoints(10);				//	player attribute HorriblePoints increased 10 points
 								break;
-			case "Blinky":		winningCard = junkpile.getJunkPile(junkrange + 1);
-								players.setPoints(1);
+			case "Blinky":		winnernum = 1;
 								break;
-			case "Pinky":		winningCard = junkpile.getJunkPile(junkrange + 2);
-								players.setPoints(2);
+			case "Pinky":		winnernum = 2;
 								break;
-			case "Inky":		winningCard = junkpile.getJunkPile(junkrange + 3);
-								players.setPoints(3);
+			case "Inky":		winnernum = 3;
 								break;
-			case "Clyde":		winningCard = junkpile.getJunkPile(junkrange + 4);
-								players.setPoints(4);
+			case "Clyde":		winnernum = 4;
 								break;
 			default:			winningCard = new WhiteCard();
+								winnernum = 99;
 								System.out.println("Something has gone terribly wrong in NextRoundController when trying to switch on winningCard");
 								break;
 		}
+		winningCard = junkpile.getJunkPile(junkrange + winnernum);
+		winningCard.setWins();
+		players.setPoints(winnernum);
+		System.out.println("Here is what winnernum is: " + winnernum);
+		winavatar = players.getAvatars(winnernum);
+		System.out.println("Here is what is in winavatar: " + winavatar);
+		
 /*	REMOVE v1.0 */				System.out.println("DEBUG! EndOfRoundController. Is (deck.getRoundnum()-1) the problem? " + (deck.getRoundnum()-1));
 		mv.addObject("blackcard", blackcardforround);
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. blackcardforround = " + blackcardforround.toString());
 		mv.addObject("winningCard", winningCard);
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. junkpile start = " + junkrange + "winningCard = " + winningCard.toString());
 		mv.addObject("endOfRound", deck.getRoundnum());
-		//	Add logic to add avatar source file to addObject.
+		mv.addObject("winavatar", winavatar);
 		deck.setRoundnum();
 /*	REMOVE v1.0 */				System.out.println("DEBUG! In EndofRoundController. roundnum = " + deck.getRoundnum());
 		

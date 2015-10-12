@@ -37,6 +37,7 @@ public class StartGameController {
 /*	REMOVE v1.0 */		System.out.println("DEBUG! In Start Game Controller.java\n" + pl.toString() );
 		
 		players.setLocalPlayer(pl);												//	adds the localPlayer to players (can remove localPlayer from session?)
+		players.setAvatars();
 		DealCards.dealStart(players, deck, junkpile);							//	pulls 7 white cards out of whitedeck for each player (7 * 5 = 35), sets dealt increase on cards
 		gameResults.setLocalPlayerID(pl.getPlayerID());							//	add LocalPlayer key to GameResults
 		

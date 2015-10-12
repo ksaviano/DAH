@@ -148,3 +148,11 @@ body {
 			height: 30px;
 			width: 30px;
 		}
+		
+		.story {
+			display: none;
+			float: right;
+			border: 1px solid black;
+			background-color: ivory;
+			font-size: 0.8em;
+		}

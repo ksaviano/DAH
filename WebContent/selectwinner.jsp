@@ -10,6 +10,18 @@
 		<script>
 		var cards = [ "localPlayer", "Blinky", "Pinky", "Inky", "Clyde" ];
 		
+			function showcards() {
+				for(var i = 0; i < cards.length; i++) {
+					var thiscard = cards[i];
+					var mycard = document.getElementById(thiscard);
+					mycard.setAttribute("name", thiscard);
+					mycard.setAttribute("class", "cardstock");
+					mycard.setAttribute("onclick", "setcard(this)");
+					mycard.setAttribute("ondblclick", "submitthecard()");
+//					mycard.innerHTML = thiscard.toString();
+				}
+			}
+			
 			function submitthecard() {
 				document.getElementById("choosecardform").submit();
 			}
@@ -37,9 +49,9 @@
 		</style>
 	</head>
 
-	<body>
+	<body onload="showcards()">
 		<h1 class="roundlabel">ROUND</h1>
-		<div id="roundnum"><c:out value="${deck.getRoundnum()}" /></div>						
+		<div id="roundnum">${deck.getRoundnum()}</div>						
 		<h2 class="instructions">Select the best card for this round.</h2>
 		
 		<form action="EndOfRound.html" id="choosecardform" method="POST" onsubmit="submitthecard(this)">								<!-- 	form action sends to EndOfRoundController.java -->
@@ -47,39 +59,45 @@
 
 		<div id="blackcardstock">
 			<div class="bc">
-				<c:out value="${blackcard.toString()}" />
+				${blackcard.toString()}
 			</div>
 		</div>
 		
-		<div class="cardstock" id="localPlayer" onclick="setcard(this)" ondblclick="submitthecard()">
+		<div id="localPlayer">	${playersChoices[0].toString()}</div>
+		<div id="Blinky">		${playersChoices[1].toString()}</div>
+		<div id="Pinky">		${playersChoices[2].toString()}</div>
+		<div id="Inky">			${playersChoices[3].toString()}</div>
+		<div id="Clyde">		${playersChoices[4].toString()}</div>
+		
+<%-- 		<div class="cardstock" id="localPlayer" onclick="setcard(this)" ondblclick="submitthecard()">
 			<div class="wc" id="wc0">
-				<c:out value="${playersChoices[0].toString()}" />
+				${playersChoices[0].toString()}
 			</div>
 		</div>
 		
 		<div class="cardstock" id="Blinky" onclick="setcard(this)" ondblclick="submitthecard()">
 			<div class="wc" id="wc1">
-				<c:out value="${playersChoices[1].toString()}" />
+				${playersChoices[1].toString()}
 			</div>
 		</div>
 		
 		<div class="cardstock" id="Pinky" onclick="setcard(this)" ondblclick="submitthecard()">
 			<div class="wc" id="wc2">
-				<c:out value="${playersChoices[2].toString()}" />
+				${playersChoices[2].toString()}
 			</div>
 		</div>
 		
 		<div class="cardstock" id="Inky" onclick="setcard(this)" ondblclick="submitthecard()">
 			<div class="wc" id="wc3">
-				<c:out value="${playersChoices[3].toString()}" />
+				${playersChoices[3].toString()}
 			</div>
 		</div>
 		
 		<div class="cardstock" id="Clyde" onclick="setcard(this)" ondblclick="submitthecard()">
 			<div class="wc" id="wc4">
-				<c:out value="${playersChoices[4].toString()}" />
+				${playersChoices[4].toString()}
 			</div>
-		</div>
+		</div> --%>
 
 		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />	<!-- 	sends blackcardID as string to EndOfRoundController.java -->
 		<input type="submit" value="Submit" />

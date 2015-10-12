@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -18,25 +17,26 @@
 
 	<body>
 		<h1 class="roundlabel">ROUND</h1>
-		<div id="roundnum"><c:out value="${endOfRound}" /></div>
+		<div id="roundnum">${endOfRound}</div>
 		<h2 class="instructions">The winner of the round has been selected!</h2>
 		
 		<form action="NextRound.html" method="POST" >
 		<div id="blackcardstock">
 			<div class="bc">
-				<c:out value="${blackcard.toString()}" />
+				${blackcard.toString()}
 			</div>
 		</div>
 		
 		<div class="cardstock" id="winningcard">
 			<div class="wc" id="wc0">
-				<c:out value="${winningCard.toString()}" />
+				${winningCard.toString()}
 			</div>
 		</div>
 		
 		<div>
 			<div>
-				<!--  add avatar image (from EndOfRoundController.java) -->
+				<script>console.log("${winavatar}")</script>
+				<img src=${winavatar} alt="winner_avatar" height=140px width=128px;>
 			</div>
 		</div>
 

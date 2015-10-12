@@ -1,5 +1,4 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -24,12 +23,32 @@
 		<form action="EndOfGame.html" method="POST" >
 		
 <table>
-<tr><th><div class="left">Player Name</div></th>												<th><div class="right">Points</div></th></tr>
-<tr><td><div class="left"><c:out value="${players.getLocalPlayer().toString()}" /></div></td>	<td><div class="right"><c:out value="${players.getPoints(0)}" /></div></td></tr>
-<tr><td><div class="left"><c:out value="${players.getGhostPlayer(1).toString()}" /></div></td>	<td><div class="right"><c:out value="${players.getPoints(1)}" /></div></td></tr>
-<tr><td><div class="left"><c:out value="${players.getGhostPlayer(2).toString()}" /></div></td>	<td><div class="right"><c:out value="${players.getPoints(2)}" /></div></td></tr>
-<tr><td><div class="left"><c:out value="${players.getGhostPlayer(3).toString()}" /></div></td>	<td><div class="right"><c:out value="${players.getPoints(3)}" /></div></td></tr>
-<tr><td><div class="left"><c:out value="${players.getGhostPlayer(4).toString()}" /></div></td>	<td><div class="right"><c:out value="${players.getPoints(4)}" /></div></td></tr>
+<tr><th><div class="left">Player Name</div></th><th></th><th><div class="right">Points</div></th></tr>
+<tr>
+	<td><div class="left">${players.getLocalPlayer().toString()}</div></td>
+	<td><img src=${players.getAvatars(0)} alt="avatar" height=140px width=128px;></td>	
+	<td><div class="right">${players.getPoints(0)}</div></td>
+</tr>
+<tr>
+	<td><div class="left">${players.getGhostPlayer(1).toString()}</div></td>
+	<td><img src=${players.getAvatars(1)} alt="avatar" height=140px width=128px;></td>	
+	<td><div class="right">${players.getPoints(1)}</div></td>
+</tr>
+<tr>
+	<td><div class="left">${players.getGhostPlayer(2).toString()}</div></td>
+	<td><img src=${players.getAvatars(2)} alt="avatar" height=140px width=128px;></td>	
+	<td><div class="right">${players.getPoints(2)}</div></td>
+</tr>
+<tr>
+	<td><div class="left">${players.getGhostPlayer(3).toString()}</div></td>
+	<td><img src=${players.getAvatars(3)} alt="avatar" height=140px width=128px;></td>	
+	<td><div class="right">${players.getPoints(3)}</div></td>
+</tr>
+<tr>
+	<td><div class="left">${players.getGhostPlayer(4).toString()}</div></td>
+	<td><img src=${players.getAvatars(4)} alt="avatar" height=140px width=128px;></td>	
+	<td><div class="right">${players.getPoints(4)}</div></td>
+</tr>
 <tr><td></td><td>		<input type="submit" value="PLAY NEW GAME!" /></td></tr>
 </table>		
 

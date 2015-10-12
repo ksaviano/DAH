@@ -30,16 +30,20 @@
 		<h1>Player Profile</h1>
 		
 		<h2 class = "instructions">Welcome, ${localPlayer.getNickname()}</h2>
-		<div class = "avatar"><img src="images/avatars/defaultavatar.png" alt="player avatar" height=140px width=128px;></div>
+		<div class = "avatar">
+			<img src=${localPlayer.getAvatar()} alt="player_avatar" height=140px width=128px;>
+			<script>console.log("${localPlayer.getAvatar()}")</script>
+			
+		</div>
 		<br><br><br><br>
 		
 		<form action="StartGame.html" method="POST" >
 		
 		<table>
 		<tr><td><div id="record">Your record:<br/></div></td></tr>
-		<tr><td><div>Games played:</div></td>			<td><div><c:out value="${localPlayer.getGamesPlayed()}" /></div></td></tr>   
-		<tr><td><div>Hands won:</div></td>				<td><div><c:out value="${localPlayer.getHandsWon()}" /></div>
-		<tr><td><div>Horrible Points:</div></td>		<td><div><c:out value="${localPlayer.getHorriblePoints()}" /></div>
+		<tr><td><div>Games played:</div></td>			<td><div>${localPlayer.getGamesPlayed()}</div></td></tr>   
+		<tr><td><div>Hands won:</div></td>				<td><div>${localPlayer.getHandsWon()}</div>
+		<tr><td><div>Horrible Points:</div></td>		<td><div>${localPlayer.getHorriblePoints()}</div>
 		</table>
 		
 		<div class="roundselector"><label for="roundsel">Rounds</label>
