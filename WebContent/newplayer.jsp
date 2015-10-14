@@ -26,7 +26,7 @@
 				if(origpassword.length == 0) {
 					break;												//	when orig password is blank, don't verify
 				}
-				if(veripassword.substr(veripassword, 0, i) == origpassword.substr(origpassword, 0, 1)) {
+				if(veripassword.substr(veripassword, 0, i) == origpassword.substr(origpassword, 0, i)) {
 					veripassword.backgroundcolor = green;				//	when all keystrokes entered so far match, keep green but continue
 				} else {
 					document.getElementById("pwderror").display = block;

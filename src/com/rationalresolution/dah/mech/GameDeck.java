@@ -21,7 +21,8 @@ public class GameDeck {
 	private static int totalRounds = 0;												//	set this number to total number of rounds (usually 10)
 	public static int WCCOUNT = 0;			//	5 players (4 ghosts + 1 real) with init 7 + 11 draws = 90
 	public static int BCCOUNT = 0;								//	10 rounds in standard game
-	
+	private BlackCard currentBC;
+	private WhiteCard roundWinner;
 	
 	public EntityManagerFactory emf;
 	public EntityManager em;
@@ -85,16 +86,22 @@ public class GameDeck {
 		}
 		return temp;
 	}
-	public BlackCard getBlackCard()	{
-		BlackCard temp = null;
+	public BlackCard getBlackCard()	{				//	this function draws AND REMOVES the next black card from the black card deck
 		Iterator<BlackCard> bi = blackdeck.iterator();
-/*	REMOVE v1.0 */			System.out.println("\nDEBUG! In GameDeck - constructing blackdeck. in getBlackCard " + bi.toString());						
 		if(bi.hasNext()) {
-			temp = bi.next();
+			currentBC = bi.next();
+			/*	REMOVE v1.0 */			System.out.println("\nDEBUG! In GameDeck - constructing blackdeck. in getBlackCard " + currentBC.toString());						
 			bi.remove();			
 		}
-		return temp;
+		return currentBC;
 	}
+	
+	public BlackCard dispCurrentBC() {				//	this function returns the card that is the current BC (no draw/removal from black card deck
+		return currentBC;
+	}
+	
+	public WhiteCard getRoundWinner()			{ return roundWinner;	}
+	public void setRoundWinner(WhiteCard wc)	{ roundWinner = wc;		}
 	
 	
 	

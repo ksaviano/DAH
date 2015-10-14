@@ -13,6 +13,7 @@ public class GhostPlayer implements Player {
 	private int ghostID;
 	private Ghosts ghostname;
 	protected WhiteCard[] hand					= new WhiteCard[7];
+	private WhiteCard roundpick;
 	
 	
 	public enum Ghosts { BLINKY, PINKY, INKY, CLYDE };
@@ -22,9 +23,11 @@ public class GhostPlayer implements Player {
 	public Ghosts getGhostname()				{ return ghostname;	}
 	public String getUsername()					{ return "" + getGhostname(); }
 	public WhiteCard[] getHand()				{ return hand;		}
+	public WhiteCard getRoundpick()				{ return roundpick;	}
 	
 	public void setGhostname(Ghosts g)			{ ghostname = g;	}
-	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;	}
+	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;		}
+	public void setRoundpick(WhiteCard wc)		{ roundpick = wc;	}
 
 	//	Constructor
 	public GhostPlayer() {
@@ -66,6 +69,7 @@ public class GhostPlayer implements Player {
 		for(int i = 0; i  < decider.length; i++) {
 			if(decider[i] > x ) { 
 				System.out.println("Random: " + x + " decider value: " + decider[i] + " array spot " + i);
+				setRoundpick(hand[i]);
 				return i; 
 			}
 		}

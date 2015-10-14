@@ -41,7 +41,7 @@ public class StartGameController {
 		DealCards.dealStart(players, deck, junkpile);							//	pulls 7 white cards out of whitedeck for each player (7 * 5 = 35), sets dealt increase on cards
 		gameResults.setLocalPlayerID(pl.getPlayerID());							//	add LocalPlayer key to GameResults
 		
-		WhiteCard[] currentHand = players.getLocalPlayer().getHand();			//	Array has current cards of LocalPlayer
+/*		WhiteCard[] currentHand = players.getLocalPlayer().getHand();			//	Array has current cards of LocalPlayer
 		mv.addObject("card0", currentHand[0]);									//	This information does not need to persist, so add as object (0-6)
 		mv.addObject("card1", currentHand[1]);
 		mv.addObject("card2", currentHand[2]);
@@ -50,7 +50,7 @@ public class StartGameController {
 		mv.addObject("card5", currentHand[5]);
 		mv.addObject("card6", currentHand[6]);
 		mv.addObject("blackcard", deck.getBlackCard());							//	Select blackcard (removed from blackdeck)
-		
+*/		
 		session.setAttribute("deck", deck);
 		session.setAttribute("junkpile", junkpile);
 		session.setAttribute("players", players);

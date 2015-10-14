@@ -68,6 +68,7 @@ public class EndOfRoundController {
 		}
 		winningCard = junkpile.getJunkPile(junkrange + winnernum);
 		winningCard.setWins();
+		deck.setRoundWinner(winningCard);
 		players.setPoints(winnernum);
 		System.out.println("Here is what winnernum is: " + winnernum);
 		winavatar = players.getAvatars(winnernum);

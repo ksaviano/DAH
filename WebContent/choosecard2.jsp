@@ -87,39 +87,26 @@
 		</style>
 	</head>
 
-	<body onload="showcards()">
-	
-		<h1 class="roundlabel">ROUND </h1>
-		<div id="roundnum">${deck.getRoundnum()}</div><br/><br/><br/>
+	<body>
+		<h1 class="roundlabel">ROUND</h1>
+		<div id="roundnum"></div>
 		<h2 class="instructions">Select a card from "your hand" to play this round.</h2>
 
 		<form action="SelectWinner.html" id="choosecardform" method="POST" onsubmit="submitthecard()">
-		<input type="hidden" name="playerchoice"/>
 		
-		<div id="blackcardstock">
-			<div class="bc">
-				${blackcard.toString()}
-			</div>
-		</div>
-				
-		<div id="card0">
-<!--			${card0.toString()}	-->
-		</div>
-		<div id="card1">
- 			<div class="cardctrl">
- 				<img class="logo" src="images/RRlogo.jpg" alt="RRlogo" height="40" width="40">
-				<img class="settings" src="images/settings.png" alt="settings" height="20" width="20" onclick="govote(this)">
-			</div>
- 			<div class="text" id="card1txt">${card1.toString()}</div> 
-		</div>
-		<div id="card2">${card2.toString()}</div>
-		<div id="card3">${card3.toString()}</div>
-		<div id="card4">${card4.toString()}</div>
-		<div id="card5">${card5.toString()}</div>
-		<div id="card6">${card6.toString()}</div>
+		<div id="blackcard"></div>
+		
+		<div id="card0"></div>
+		<div id="card1"></div>
+		<div id="card2"></div>
+		<div id="card3"></div>
+		<div id="card4"></div>
+		<div id="card5"></div>
+		<div id="card6"></div>
 		
 		<div class="submitbtn">
 		<input type="hidden" name="blackcardID" value="${blackcard.getCardID()}" />
+		<input type="hidden" name="playerchoice"/>
 		<input type="submit" value="Submit" />
 		</div>
 		</form>

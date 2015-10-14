@@ -1,58 +1,76 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
 		<title>Developers Against Humanity</title>
-		<link rel="stylesheet" type="text/css" href="CSS/dahstyle.css">
+		<link rel="stylesheet" type="text/css" href="/DAH/CSS/dahstyle.css">
+		<link href='https://fonts.googleapis.com/css?family=Permanent+Marker' rel='stylesheet' type='text/css'>
+		<link href='https://fonts.googleapis.com/css?family=Shadows+Into+Light' rel='stylesheet' type='text/css'>
 		
 		<style>
-		
-			body {
-				height: 700px;
-				background-image: url("images/rainbowbck.jpg");
-				background-size: cover;
-				background-repeat: no-repeat;
-				background-position: center;
-				
-				font-family: Helvetica;
-			} 
-			
-			#usrname {
-				float: left;
-				font-size: 1.5em;
-				margin-right: 20px;
-				
-			}
-			
-			#username div {
-				float: clear;
-				fontsize: 1.5em;
-				background: transparent;
-			}
-			
-			#passwrd {
-				margin-left: 20px;
-				float: left;
-				font-size: 1.5em;
-			}
-			
-			#submit {
-				float: clear;
-			}
-			
-			.storyon {
-				display: block;
-			}
-			
-
-			
+					
 		</style>
 		
+		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
+		<script src="/DAH/JS/code.js"></script>
 		<script>
-			function showstory() {
-				document.getElementById("story").setAttribute("class", ".storyon");
-			}
+		$(document).ready(function() {
+			$("#signinlabel").click(function() {
+				$("#signinlabel").slideUp();
+				$("#signuplabel").slideUp();
+				$("#loginformdiv").slideDown();
+			});
+		
+			$("#signuplabel").click(function() {
+				$("#signinlabel").slideUp();
+				$("#signuplabel").slideUp();
+				$("#newplayerformdiv").slideDown();
+			});
+		
+			$("#subLogo").click(function() {
+				if($("#story").is(":hidden")) {
+					$("#story").show("slow");
+				} else {
+					$("#story").slideUp();
+				}
+			});
+			
+			$("#newplayUserbox").focusout(function() {
+				checkUsername();
+			});
+			
+			$("#confirmPassbox").keyup(function(evt) {
+				var c = evt.target.value;
+				var conf = document.getElementById("newplayerformdiv");
+				var orig = document.getElementById("newplayerpass").value;
+			
+				console.log("in #confirmPassbox.keypress. " + c.length + " " + orig.length);
+				var stat = document.createElement("img");
+					stat.setAttribute("src", "/DAH/images/status/nope.png");
+					stat.setAttribute("height", "25px");
+					stat.setAttribute("width", "25px");
+					stat.setAttribute("class", "staticon");
+					stat.setAttribute("alt", "staticon");
+					stat.setAttribute("display", "block");						
+				if(c.length > 3 && c.length <= orig.length) {
+					console.log(c.length + " c: " + c + " orig: " + orig.substr(0, c.length))
+					if(c == orig.substr(0, c.length)) {
+						stat.setAttribute("src", "/DAH/images/status/ellipse.png");
+						conf.appendChild(stat);
+						if(c == orig.substr(conf.length)) {
+							stat.setAttribute("src", "/DAH/images/status/check.png")
+							conf.setAttribute("check", "yes");
+						}
+					}
+					else { 
+						stat.setAttribute("src", "/DAH/images/status/nope.png"); 
+						conf.appendChild(stat);
+						conf.setAttribute("check", "no");
+					}
+				}
+			});
+			
+		});
 		</script>
 		
 		
@@ -60,9 +78,45 @@
 
 	<body>
 	
-		<h1>Welcome to DAH! Please login below:</h1>
+		<div id="header">
+		<div id="DAHLogo" class="DAHLogo">Developers Against Humanity (DAH)!</div>
+		<div id="subLogo" class="subLogo">Making a smarter ghost...</div>
 		
-		<div class="story" id="story">
+		<div id="signinlabel" class="labelbtn">Sign In</div>
+		<div id="signuplabel" class="labelbtn">Sign Up</div>
+		</div>
+		
+		<hr id="seperator"></hr>
+		
+		<div id="loginformdiv">
+		<form id="loginform" class="loginform" action="Login.html" method="POST">
+			<div id="loginusername" class="label">Username</div>
+			<div id="loginUserbox" class="input"><input type="text" name="username"></div>
+			<div id="loginpassword" class="label">Password</div>
+			<div id="loginPassbox" class="input"><input type="password" name="password"></div>
+			<div id="loginsubmit"><input class="input" type="submit" value="Login"></div>
+			<div id="loginGuest" class=labelbtn>Play as Guest</div>
+		</form>
+		<div id="error" class="error">${error}</div>
+		</div>
+		
+		<div id="newplayerformdiv">
+		<form id="newplayerform" class="newplayerform" action="NewPlayer.html" method="POST">
+			<div id="loginusername" class="label">Username</div>
+			<div id="newplayUserbox" class="input"><input type="text" name="newplayername" id="newplayername"></div>
+			<div id="loginpassword" class="label">Password</div>
+			<div id="newplayPassbox" class="input"><input type="password" name="newplayerpass" id="newplayerpass"></div>
+			<div id="confirmpassword" class="label">Confirm Password</div>
+			<div id="confirmPassbox" class="input"><input type="password" name="confirmpass" id="confirmpass"></div>
+			<div id="nickname" class="label">Nickname</div>
+			<div id="nicknamebox" class="input"><input type="text" name="nickname" id="nickname"></div>
+			<div id="avatar" class="label">Avatar</div>
+			<div id="avatarbox" class="input"><input type="file" name="avatar" id="avatar"></div>
+			<div id="newplaysubmit"><input class="input" type="submit" value="Create New Account"></div>
+		</form>
+		</div>
+		
+		<div id="story" class="story" >
 			<p>Once upon a time...</p>
 			<p>Well, actually it was around 1980. After years spent in development, Pac-Man was finally read for release!</p>
 			<p>Unfortunately, one of the principal players, or rather non-players, was causing quite a few problems. You may have noticed the naming convention of the ghosts in Pac-Man:</p>
@@ -79,32 +133,5 @@
 			<p>As you play DAH, Kinky is always watching. He carefully scrutinizes your picks from your hand, and influences the other ghosts to pick the best card based on these previous games. He demands that when you are shown all 5 cards, that you pick the card that is truly the best answer rather than bolstering your own pathetic ego by picking your own.</p>
 			<p>When he has all the information he needs, Kinky will dominate the DAH Tournament and will richly reward those who helped him (as evidenced by Horrible Points!) in his quest to be the smartest ghost!</p>
 		</div>
-		
-		<form action="login.html" method="POST">
-		
-		<div class="error">${error}</div>
-		<p></p>
-		<div id="usrname">
-			<p>Username:</p>
-			<div class="input">
-				<input type="text" 		name="username">
-			</div>
-		</div>
-		<div id="passwrd">
-			<p>Password:</p>
-			<div class="input">
-				<input type="password" 	name="password" >
-			</div>
-		</div>
-		<div id="submit">
-			<p><input type="submit" 	value="Login"></p>
-		</div>
-		</form>
-		
-		<button type="button" name="story" onclick="showstory()" >What's the story, MorningGlory?</button>
-		
-		<form action="NewPlayer" method="POST" >
-			Click <a href="newplayer.jsp">here</a> to create new player account.
-		</form>
 	</body>
 </html>

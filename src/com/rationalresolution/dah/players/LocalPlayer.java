@@ -46,6 +46,9 @@ public class LocalPlayer implements Player {
 	@Transient
 	public WhiteCard[] hand				= new WhiteCard[7];		//	does not need to be stored in DB
 	
+	@Transient
+	private WhiteCard roundpick;
+	
 	//	Constructor
 	public LocalPlayer() {
 		setNickname("Asshat");
@@ -74,6 +77,7 @@ public class LocalPlayer implements Player {
 	public int getHandsWon()			{ return handsWon;			}
 	public int getHorriblePoints()		{ return horriblePoints;	}
 	public WhiteCard[] getHand()		{ return hand;				}		//	returns array of cards in hand (0-6)
+	public WhiteCard getRoundpick()		{ return roundpick;			}
 	
 	public void setUsername(String u)			{ username = u;		}
 	public void setPassword(String p)			{ password = p; 	}
@@ -83,19 +87,20 @@ public class LocalPlayer implements Player {
 	public void setHandsWon()					{ handsWon++;		}
 	public void setHorriblePoints(int x)		{ horriblePoints+=x;}
 	public void setHand(WhiteCard wc, int a)	{ hand[a] = wc;		}		//	puts whitecard into hand at array index a (0-6)
+	public void setRoundpick(WhiteCard wc)		{ roundpick = wc;	}
 	
 	
 	//	Methods
 	public int decideCard(int bc, HttpSession session) {						//	ROUND OF PLAY STEP 2
-		//	not used for localPlayer- here so Player Interface can have method so players.decideCard() can work for ghosts
-		int x = 0;									// this will be returned from ChooseCard.jsp
-		return x;
+		setRoundpick(getHand()[bc]);				//	rather than bcid (used in ghostplayer), pass wcplayerArraySpot
+		return bc;
 	}
 	
 	public WhiteCard playCard(int x) {				//	ROUND OF PLAY STEP 3
 		WhiteCard playedCard = hand[x];				//	x is passed from choosecard.jsp as the selected card (0-6)
 		JunkPile.setJunkPile(playedCard);			//	the card is sent to the junkpile
 		playedCard.setPlayed();						//	the cards' played number is increased by 1
+		setRoundpick(playedCard);
 		hand[x] = null;								//	the array spot where the card was is set to null (used by DealCards.dealNextRound to populate with new card from whitedeck)
 		return playedCard;							//	returns the playedCard
 	}

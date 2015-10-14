@@ -10,40 +10,10 @@
   	<servlet-class>org.springframework.web.servlet.DispatcherServlet</servlet-class>
   	<load-on-startup>1</load-on-startup>
   </servlet>
-  
+
   <servlet-mapping>
   	<servlet-name>Game</servlet-name>
-  	<url-pattern>/login.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/NewPlayer.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/StartGame.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/SelectWinner.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/EndOfRound.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/NextRound.html</url-pattern>
-  </servlet-mapping>
-  
-  <servlet-mapping>
-  	<servlet-name>Game</servlet-name>
-  	<url-pattern>/EndOfGame.html</url-pattern>
+  	<url-pattern>/</url-pattern>
   </servlet-mapping>
   
 </web-app>

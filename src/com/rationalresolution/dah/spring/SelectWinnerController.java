@@ -67,7 +67,7 @@ public class SelectWinnerController {
 							break;
 		}
 /*	REMOVE v1.0 */				System.out.println("DEBUG! SelectWinnerController (after switch on playerchoice)\t" + playerwc.toString());
-		
+		players.getPlayers()[0].decideCard(playerwcArraySpot, session);
 		playersChoices[0] = players.getPlayers()[0].playCard(playerwcArraySpot);					//	set LocalPlayer card in temp array
 		for (int i = 1; i < playersChoices.length; i++) {											//	loops through ghosts (1-4)
 			playersChoices[i] = players.getPlayers()[i].playCard(players.getPlayers()[i].decideCard(bcPKey, session));	//	ghosts decideCard uses refcc and random to decide card, removes card from ghost's hand

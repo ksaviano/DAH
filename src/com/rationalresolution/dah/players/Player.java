@@ -11,4 +11,6 @@ public interface Player {
 	public WhiteCard[] getHand();
 	public void discard(int x);
 	public String getUsername();
+	public WhiteCard getRoundpick();
+	public void setRoundpick(WhiteCard wc);
 }

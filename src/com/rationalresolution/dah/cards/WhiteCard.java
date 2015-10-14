@@ -30,14 +30,26 @@ public class WhiteCard {
 
 	@Transient
 	private ArrayList<String> readAloud				= new ArrayList<>();
-	
-//	private CardProfile profile						= new CardProfile();
 
-	@Transient
-	private Map<String, Integer> combos				= new HashMap<>();				//	wcbcFKey (black card ID of played combos, PlayVWin)
+	@Column(name = "wcEdition")
+	private String edition							= "orig";
 	
-
-//	private PlayVWin stats 							= new PlayVWin();
+	@Column(name = "wcPG13")
+	private int pg13								= 0;
+	
+	@Column(name = "wcXXX")
+	private int xxx									= 0;
+	
+	@Column(name = "wcDunno")
+	private int dunno								= 0;
+	
+	@Column(name = "wcGross")
+	private int gross								= 0;
+	
+	@Column(name = "wcInapprop")
+	private int inapprop							= 0;
+	
+	
 	
 	//	Constructor
 	public WhiteCard() {
@@ -46,34 +58,34 @@ public class WhiteCard {
 	
 	public WhiteCard(String text) {
 		setCardText(text);
-//		UtilReadAloud.setReadAloud(text);
 		wins = 0;
 		played = 0;
-//		commitNewCardtoDB(text);
 	}
 	
 	//	Accessor Methods
 	public int getcardID()					{ return cardID;	}
+	public String getCardText()				{ return cardText;	}
 	public int getWins()					{ return wins;		}
 	public int getPlayed()					{ return played;	}
-	public String getCardText()				{ return cardText;	}
 	public int getDealt()					{ return dealt;		}
-	public Map<String, Integer> getCombos()	{ return combos;	}
+	public String getEdition()				{ return edition;	}
+	public int getPg13()					{ return pg13;		}
+	public int getXxx()						{ return xxx;		}
+	public int getDunno()					{ return dunno;		}
+	public int getGross()					{ return gross;		}
+	public int getInapprop()				{ return inapprop;	}
 
-	public void setCardID()					{ cardID = 1348;	}
+//	public void setCardID()					{ /* automatically set by DB */ }
 	public void setCardText(String t)		{ cardText = t;		}
 	public void setWins()					{ wins++;			}
 	public void setPlayed()					{ played++;			}
 	public void setDealt()					{ dealt++;			}
-	public void setCombos(String bcFKey) {
-		if(combos.containsKey(bcFKey)) {
-			combos.put(bcFKey, (combos.get(bcFKey) + 1));
-		}
-		else {
-			combos.put(bcFKey, 1);	
-		}
-	}
-	
+	public void setEdition(String e)		{ edition = e;		}
+	public void setPg13()					{ pg13++;			}
+	public void setXxx()					{ xxx++;			}
+	public void setDunno()					{ dunno++;			}
+	public void setGross()					{ gross++;			}
+	public void setInapprop()				{ inapprop++;		}
 
 	
 	//	Methods
