@@ -51,20 +51,25 @@ public class LocalPlayer implements Player {
 	
 	//	Constructor
 	public LocalPlayer() {
+		setUsername("Heath Beaver");
+		setPassword("password");
 		setNickname("Asshat");
 		setAvatar("/DAH/images/avatars/defaultavatar.png");
+		System.out.println("LocalPlayer constructor()");
 	}
 	
-	public LocalPlayer(String u, String p) {
-		this();
+	public LocalPlayer(String u, String p, String n) {
 		setUsername(u);
 		setPassword(p);
-	}
-	
-	public LocalPlayer(String u, String p, String n, String a) {
-		this(u, p);
-		setNickname(n);
-		setAvatar(a);
+		if(n.trim().equals("null") || n == null || n == "") {
+			setNickname("Asshat");
+		}
+		else {
+			setNickname(n);
+		}
+		System.out.println("LocalPlayer full constructor: n = " + n + "\tnickname = " + getNickname() + "\tsame string? " + (n == "null") + "\tisempty? " + n.isEmpty() + "\tlength? " + n.length());
+		setAvatar("/DAH/images/avatars/defaultavatar.png");
+		System.out.println("LocalPlayer constructor(u, p, n)");
 	}
 	
 	//	Accessor Methods

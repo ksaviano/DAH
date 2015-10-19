@@ -1,0 +1,10 @@
+
+	#gameopt {
+		position: fixed;
+		top: 200px;
+		left: 30px;
+		height: 400px;
+		width: 500px;
+		border: 1px solid black;
+		background: pink;
+	}

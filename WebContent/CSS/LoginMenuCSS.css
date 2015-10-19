@@ -1,0 +1,205 @@
+@CHARSET "UTF-8";
+
+/* Login Menu - displayInitial */
+
+		.DAHLogo {
+			font-family: 'Permanent Marker', cursive;
+			font-size: 2.6em;
+			position: fixed;
+			top: 0px;
+			left: 15px;
+		}
+		
+		.subLogo {
+			font-family: 'Shadows Into Light', cursive;
+			font-size: 1.2em;
+			position: fixed;
+			top: 25px;
+			right: 10px;
+		}
+		
+		.labelbtn {	
+			font-family: 'Shadows Into Light', cursive;
+			font-size: 1.4em;
+			font-weight: bold;
+			border: 1px solid black;
+			background: white;
+			text-align: center;
+			padding-left: 15px;
+			padding-right: 15px;
+			width: 167px;
+		}
+		
+		#signinlabel {
+			position: fixed;
+			top: 60px;
+			left: 30px;
+			text-align: center;
+		}
+		
+		#signuplabel {
+			position: fixed;
+			top: 60px;
+			left: 250px;
+			text-align: center;
+		}
+		
+		#seperator {	
+			position: fixed;
+			top: 130px;
+			width: 100%;
+		}
+		
+/* LoginMenu - display Login */		
+		
+		.loginformdiv {
+			display: block;
+		}
+		
+		.inputform {
+			display: block;
+		}
+		
+		.inputbox {
+			
+		}
+		
+		#usernamelbl {
+			position: fixed;
+			top: 70px;
+			left: 30px;
+		}
+		
+		#username {
+			position: fixed;
+			top: 67px;
+			left: 120px;
+			width: 100px;
+		}
+		
+		#passwordlbl {
+			position: fixed;
+			top: 70px;
+			left: 270px;
+		}
+		
+		#password {
+			position: fixed;
+			top: 67px;
+			left: 360px;
+			width: 100px;
+		}
+		
+		#loginsubmitbtn {
+			position: fixed;
+			top: 92px;
+			left: 30px;
+		}
+		
+		#loginGuestbtn{
+			position: fixed;
+			top: 92px;
+			left: 270px;
+		}
+		
+		#loginBack {
+			position: fixed;
+			top: 92px;
+			left: 510px;
+		}
+		
+
+
+/* Login Menu - display newplayer */
+		.error {
+		position: fixed;
+		top: 135px;
+		left: 30px;
+		font-family: 'Shadows Into Light', cursive;
+		font-size: 1.2em;		
+		}
+		
+		#newplPWconflbl {
+		position: fixed;
+		top: 70px;
+		left: 510px;			
+		}
+		
+		#passwordconf {
+		position: fixed;
+		top: 67px;
+		left: 660px;
+		width: 100px;
+		}
+		
+		#newplnicknamelbl {
+		position: fixed;
+		top: 101px;
+		left: 30px;
+		}
+		
+		#nickname {
+		position: fixed;
+		top: 101px;
+		left: 120px;
+		width: 100px;
+		}
+
+		#newplsubmitbtn {
+			position: fixed;
+			top: 92px;
+			left: 270px;
+		}
+		
+		#newplBack {
+			position: fixed;
+			top: 92px;
+			left: 510px;
+		}
+		
+		#statUN {
+			position: fixed;
+			top: 68px;
+			left: 230px;
+			height: 20px;
+			width: 20px;
+		}
+		
+		#statPW {
+			position: fixed;
+			top: 68px;
+			left: 770px;
+			height: 20px;
+			width: 20px;		
+		}
+		
+		
+/* Login Menu - display logged in */
+		#welcomediv {
+			position: fixed;
+			top: 70px;
+			left: 30px;
+			font-size: 1.2em;
+		}
+		
+		#menusettings {
+			float: right;
+			margin-top:50px;
+			margin-right: 50px;
+			height: 50px;
+			width: 50px;
+		}
+		
+		#playeravatar {
+			position: fixed;
+			top: 2px;
+			left: 800px;
+			height: 140px;
+			width: 128px;
+		}
+		
+
+		
+
+		
+		

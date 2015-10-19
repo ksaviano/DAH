@@ -29,6 +29,7 @@ public class DealCards {
 				temp = null;
 			}
 		}
+		deck.getBlackCard();
 	}
 	
 	public static void dealNextRound(@ModelAttribute("players")  Players players, 
@@ -49,6 +50,7 @@ public class DealCards {
 				}
 			}
 		}
+		deck.getBlackCard();
 	}
 	
 	public BlackCard flipBlackCard(@ModelAttribute("deck")	GameDeck deck) {									//	ROUND OF PLAY STEP 1

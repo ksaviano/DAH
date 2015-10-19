@@ -39,6 +39,11 @@ public class CardCombos {
 	}
 	
 	public CardCombos(String wcFKey, String bcFKey) {
+		this(Integer.parseInt(wcFKey), Integer.parseInt(bcFKey));
+	}
+	
+	
+	public CardCombos(int wcFKey, int bcFKey) {
 		try {
 			EntityManagerFactory emf;
 			EntityManager em;
@@ -47,12 +52,12 @@ public class CardCombos {
 			em = emf.createEntityManager();
 			
 			String qString = "SELECT c FROM CardCombos c WHERE c.ccwcFKey = :wcKey AND c.ccbcFKey = :bcKey";
-			Query query = em.createQuery(qString).setParameter("wcKey", Integer.parseInt(wcFKey)).setParameter("bcKey", Integer.parseInt(bcFKey));
+			Query query = em.createQuery(qString).setParameter("wcKey", wcFKey).setParameter("bcKey", bcFKey);
 			List<CardCombos> elementList = query.getResultList();
 			
 			if(elementList.isEmpty()) {									//	DB Call will either bring in card combo but if new, this populates fields)
-				setCcwcFKey(Integer.parseInt(wcFKey));
-				setCcbcFKey(Integer.parseInt(bcFKey));
+				setCcwcFKey(wcFKey);
+				setCcbcFKey(bcFKey);
 				setCount();
 			}
 			else {														//	If card combo exists... need to add to refcc and increase count

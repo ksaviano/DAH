@@ -20,7 +20,14 @@ public class Players {
 	public Player[] getPlayers()	{ return players;		}
 	public int getRound()			{ return round;			}
 	public LocalPlayer getLocalPlayer()	{ return (LocalPlayer) players[0];	}
-	public GhostPlayer getGhostPlayer(int i) { return (GhostPlayer) players[i]; }
+	public Player getGhostPlayer(int i) { 
+		if(i == 0) {
+			return (LocalPlayer) players[i];
+		}
+		else {
+			return (GhostPlayer) players[i]; 
+		}
+	}
 	public int getPoints(int x)		{
 		return points[x];
 	}
@@ -30,7 +37,8 @@ public class Players {
 	public void setGhostPlayers()		 	{ players[1] = new GhostPlayer(Ghosts.BLINKY);
 											  players[2] = new GhostPlayer(Ghosts.PINKY);
 											  players[3] = new GhostPlayer(Ghosts.INKY);
-											  players[4] = new GhostPlayer(Ghosts.CLYDE); }
+											  players[4] = new GhostPlayer(Ghosts.CLYDE); 
+											  System.out.println("DEBUG... Players setGhostPlayers(): ghost players are set up now");}
 	public void setPoints(int x)			{ points[x] += 10;	}
 	public void setAvatars()				{ avatars[0] = getLocalPlayer().getAvatar();
 											  avatars[1] = "/DAH/images/avatars/Blinky.png";

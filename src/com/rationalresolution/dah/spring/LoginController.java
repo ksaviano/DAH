@@ -12,59 +12,67 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.bind.support.SessionStatus;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.rationalresolution.dah.players.*;
 
+// 	THIS CLASS CAN BE DESTROYED!
+
+
 @Controller
 public class LoginController {
 
 	//	Methods
 	@RequestMapping(path="Login", method=RequestMethod.POST)
-	public ModelAndView onSubmit(@RequestParam("username") String u, 
+	@ResponseBody
+	public LocalPlayer  onSubmit(@RequestParam("username") String u, 
 								 @RequestParam("password") String p, 
 								 HttpSession session) {
 		LocalPlayer incplayer = findPlayer(u, p);
+		System.out.println("DEBUG... LoginController.java @RequestMapping Login findPlayer(u, p)");
 		if(incplayer == null) {									//	loops page until it gets correct username/password
 			String errorMsg = "Username/password combination not found.";
-			return new ModelAndView("index", "error", errorMsg);
+			return incplayer;
 		}
 		else {
 			session.setAttribute("localPlayer", incplayer);		//	throws localPlayer into session 
-			return new ModelAndView("profile");					//	forwards to profile.jsp
+			return incplayer;									
 		}
 	}
 	
-/*	@RequestMapping(path="NewPlayer", method=RequestMethod.POST)
-	public ModelAndView onNewPlayerSubmit(@RequestParam("username") String u, 
-								 		  @RequestParam("password") String p,
+	@RequestMapping(path="NewPlayer", method=RequestMethod.POST)
+	public LocalPlayer onNewPlayerSubmit(@RequestParam("newplayername") String u, 
+								 		  @RequestParam("newplayerpass") String p,
+								 		  @RequestParam("nickname") String n,
+								 		  @RequestParam("avatar") String a,
 								 		  HttpSession session) {
-		ModelAndView mv = new ModelAndView("profile");
-
-		if(findPlayer(u)) {
-			String errorMsg = "That username is already taken. Click 'Return to Login Screen' to login with password or choose a different username.";
-			return new ModelAndView("newplayer", "error", errorMsg);
-		}
-		else {
-			
-		}
 		System.out.println("DEBUG! In NewPlayerController.java");
+		LocalPlayer newplayer;
+			newplayer = new LocalPlayer(u, p, n, a);
+
+		
 		try {
-			et.begin();
-			LocalPlayer newplayer = new LocalPlayer(u, p);			
+			EntityManagerFactory emf;
+			EntityManager em;
+			emf = Persistence.createEntityManagerFactory("DAH");
+			em = emf.createEntityManager();
+			EntityTransaction et = em.getTransaction();
+
+			et.begin();		
 				em.persist(newplayer);
 				et.commit();
 				System.out.println("Added new player to database.");
-				return mv;
 			}
 		catch(Exception e) {
 			String errorMsg ="Error in NewPlayerController\n" + e;
 			System.out.println(errorMsg);
-			return new ModelAndView("NewPlayer", "error", errorMsg); 
 		}
-	}*/
+		
+		return newplayer;
+	}
 	
 	public LocalPlayer findPlayer(String u, String p) {
 		EntityManagerFactory emf;
@@ -80,23 +88,5 @@ public class LoginController {
 			System.out.println("username not found.");
 			return new LocalPlayer();
 		}
-	}
-	
-	public boolean findPlayer(String u) {
-		EntityManagerFactory emf;
-		EntityManager em;
-		emf = Persistence.createEntityManagerFactory("DAH");
-		em = emf.createEntityManager();
-		
-		LocalPlayer temp = (LocalPlayer) em.createQuery("SELECT p from LocalPlayer p WHERE p.username = :user").setParameter("user", u).getSingleResult();
-		if(temp == null) {
-			System.out.println("username not found in database. Avaialble for new player.");
-			return false;
-		}
-		else {
-			System.out.println("username found in database. Not avaialble for new player.");
-			return true;
-		}
-
 	}
 }

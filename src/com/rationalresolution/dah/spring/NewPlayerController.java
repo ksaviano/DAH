@@ -15,11 +15,11 @@ import org.springframework.web.servlet.ModelAndView;
 import com.rationalresolution.dah.players.LocalPlayer;
 
 @Controller
-@RequestMapping("/NewPlayer")
+@RequestMapping("/OLDNewPlayer")
 public class NewPlayerController {
-
+}
 	//	Methods
-	@RequestMapping(method=RequestMethod.POST)
+/*	@RequestMapping(method=RequestMethod.POST)
 	public ModelAndView onSubmit(@RequestParam("username") String u, 
 								 @RequestParam("password") String p,
 								 HttpSession session) {
@@ -46,4 +46,4 @@ public class NewPlayerController {
 			return new ModelAndView("NewPlayer", "error", errorMsg); 
 		}
 	}
-}
+}*/

@@ -12,109 +12,57 @@
 		</style>
 		
 		<script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/2.0.0/jquery.min.js"></script>
-		<script src="/DAH/JS/code.js"></script>
+		<script src="/DAH/js/code.js"></script>
 		<script>
 		$(document).ready(function() {
-			$("#signinlabel").click(function() {
-				$("#signinlabel").slideUp();
-				$("#signuplabel").slideUp();
-				$("#loginformdiv").slideDown();
-			});
-		
-			$("#signuplabel").click(function() {
-				$("#signinlabel").slideUp();
-				$("#signuplabel").slideUp();
-				$("#newplayerformdiv").slideDown();
-			});
-		
-			$("#subLogo").click(function() {
-				if($("#story").is(":hidden")) {
-					$("#story").show("slow");
-				} else {
-					$("#story").slideUp();
-				}
-			});
-			
-			$("#newplayUserbox").focusout(function() {
-				checkUsername();
-			});
-			
-			$("#confirmPassbox").keyup(function(evt) {
-				var c = evt.target.value;
-				var conf = document.getElementById("newplayerformdiv");
-				var orig = document.getElementById("newplayerpass").value;
-			
-				console.log("in #confirmPassbox.keypress. " + c.length + " " + orig.length);
-				var stat = document.createElement("img");
-					stat.setAttribute("src", "/DAH/images/status/nope.png");
-					stat.setAttribute("height", "25px");
-					stat.setAttribute("width", "25px");
-					stat.setAttribute("class", "staticon");
-					stat.setAttribute("alt", "staticon");
-					stat.setAttribute("display", "block");						
-				if(c.length > 3 && c.length <= orig.length) {
-					console.log(c.length + " c: " + c + " orig: " + orig.substr(0, c.length))
-					if(c == orig.substr(0, c.length)) {
-						stat.setAttribute("src", "/DAH/images/status/ellipse.png");
-						conf.appendChild(stat);
-						if(c == orig.substr(conf.length)) {
-							stat.setAttribute("src", "/DAH/images/status/check.png")
-							conf.setAttribute("check", "yes");
-						}
-					}
-					else { 
-						stat.setAttribute("src", "/DAH/images/status/nope.png"); 
-						conf.appendChild(stat);
-						conf.setAttribute("check", "no");
-					}
-				}
-			});
-			
-		});
+			$("#header").load("LoginMenu.jsp");
+		})
 		</script>
 		
 		
 	</head>
 
 	<body>
-	
-		<div id="header">
-		<div id="DAHLogo" class="DAHLogo">Developers Against Humanity (DAH)!</div>
-		<div id="subLogo" class="subLogo">Making a smarter ghost...</div>
+		<div id="header" name="header"></div>
+		<div id="gameoptions" name="gameoptions"></div>
+		<div id="playerrecord" name="playerrecord"></div>
+		<div id="combodisplay" name="combodisplay"></div>
+<!-- 	<div id="menudiv" name="menudiv" class="menudiv"></div> -->
+
 		
-		<div id="signinlabel" class="labelbtn">Sign In</div>
-		<div id="signuplabel" class="labelbtn">Sign Up</div>
-		</div>
+
+
 		
-		<hr id="seperator"></hr>
+<!-- 		<div id="gameoptionsframe">
+			
+			<div class="roundselector"><label for="roundsel">Select the numbers of rounds for your game:</label>
+			<form id="readytoplayform" action="StartGame" method="POST">
+				<input type="range" min="3" max="10" value="5" id="roundsel" name="roundsel" step="1" oninput="outputUpdate(value)">
+				<output for="roundsel" id="roundselect">5</output>
+			</form>
+			</div>
 		
-		<div id="loginformdiv">
-		<form id="loginform" class="loginform" action="Login.html" method="POST">
-			<div id="loginusername" class="label">Username</div>
-			<div id="loginUserbox" class="input"><input type="text" name="username"></div>
-			<div id="loginpassword" class="label">Password</div>
-			<div id="loginPassbox" class="input"><input type="password" name="password"></div>
-			<div id="loginsubmit"><input class="input" type="submit" value="Login"></div>
-			<div id="loginGuest" class=labelbtn>Play as Guest</div>
-		</form>
-		<div id="error" class="error">${error}</div>
-		</div>
-		
-		<div id="newplayerformdiv">
-		<form id="newplayerform" class="newplayerform" action="NewPlayer.html" method="POST">
-			<div id="loginusername" class="label">Username</div>
-			<div id="newplayUserbox" class="input"><input type="text" name="newplayername" id="newplayername"></div>
-			<div id="loginpassword" class="label">Password</div>
-			<div id="newplayPassbox" class="input"><input type="password" name="newplayerpass" id="newplayerpass"></div>
-			<div id="confirmpassword" class="label">Confirm Password</div>
-			<div id="confirmPassbox" class="input"><input type="password" name="confirmpass" id="confirmpass"></div>
-			<div id="nickname" class="label">Nickname</div>
-			<div id="nicknamebox" class="input"><input type="text" name="nickname" id="nickname"></div>
-			<div id="avatar" class="label">Avatar</div>
-			<div id="avatarbox" class="input"><input type="file" name="avatar" id="avatar"></div>
-			<div id="newplaysubmit"><input class="input" type="submit" value="Create New Account"></div>
-		</form>
-		</div>
+			<div id="deckselectorlbl">Deck Selector
+				<div id="Deverythinglbl">Gimme Everything you got!</div>						<div id="Deverythingbox"></div>
+			<div id="Doriginallbl">Original Cards Against Humanity deck</div>				<div id="Doriginalbox"></div>
+				<div id="Dexpansionslbl">Cards Against Humanity expansion decks</div>			<div id="Dexpansionsbox"></div>
+				<div id="Ddenverlbl">Uncalled Four: unofficial Colorado deck</div>				<div id="Ddenverbox"></div>
+				<div id="Ddndlbl">Dungeons & Dragons: unofficial expansion deck</div>			<div id="Ddndbox"></div>
+				<div id="Dsciencelbl">CAH Science expansion deck</div>							<div id="Dsciencebox"></div>
+				<div id="Dhouselbl">House Cards! Unofficial and Unregulated Player cards</div>	<div id="Dplayerbox"></div>			
+			</div>
+			<div id="censorshiplbl">Censorship Selector
+	 			<div id="Ceverythinglbl">Gimme Everythign you got!</div>						<div id="Ceverythingbox"></div>
+			<div id="Cpg13lbl">PG-13 cards included</div>									<div id="Cpg13box"></div>
+				<div id="Cxxxlbl">XXX cards included</div>										<div id="Cxxxbox"></div>
+				<div id="Cgrosslbl">Gross cards included</div>									<div id="Cgrossbox"></div>
+				<div id="Cinapproplbl">Inappropriate cards included</div>						<div id="Cinappropbox"></div>
+				<div id="Cdunnolbl">Cards some players didn't understand the reference</div>	<div id="Cdunnobox"></div>			
+			</div>
+			
+			<div id="playgamebtn" class="labelbtn">Play Game!</div>
+		</div> -->
+
 		
 		<div id="story" class="story" >
 			<p>Once upon a time...</p>

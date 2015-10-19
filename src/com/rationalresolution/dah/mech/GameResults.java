@@ -40,6 +40,7 @@ public class GameResults {
 	//	Constructor
 	public GameResults() {
 		// set gameID to new PKey value
+		System.out.println("DEBUG... in GameResults.java Constructor");
 	}
 	
 	//	Accessor Methods
@@ -59,7 +60,6 @@ public class GameResults {
 	public void setInkyScore(int s)				{ inkyScore = s;				}
 	public void setClydeScore(int s)			{ clydeScore = s;				}
 //	public void setTimestamp()					{ timestamp = new Timestamp(new java.util.Date().getTime());			}
-	
 	
 	//	Methods
 	public String toString() {

@@ -39,7 +39,7 @@ public class RESTController1 {
 		DealCards.dealNextRound(players, deck, junkpile);
 		return mv;
 	}
-
+/*
 	@RequestMapping("/getPlayerHand")
 	@ResponseBody
 	public WhiteCard[] getPlayerHandJSON(HttpSession session) {
@@ -60,7 +60,7 @@ public class RESTController1 {
 		GameDeck deck 		= (GameDeck)	session.getAttribute("deck");
 		return deck.getRoundnum();
 	}
-	
+*/	
 	
 	
 	
